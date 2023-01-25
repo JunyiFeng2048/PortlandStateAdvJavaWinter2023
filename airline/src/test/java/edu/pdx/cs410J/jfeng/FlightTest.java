@@ -16,6 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 public class FlightTest {
 
+  /**
+   * Tests that assign null param to a flight
+   */
   @Test
   void NullAirlineNameThrowsNullPointerException()
   {
@@ -51,6 +54,9 @@ public class FlightTest {
     assertThat(flight.getArrivalString(), is(nullValue()));
   }
 
+  /**
+   * Tests that assign a name to a flight
+   */
   @Test
   void flightNamedGoodIsNamedGood() {
     String flightName = "Good";
@@ -58,6 +64,9 @@ public class FlightTest {
     assertThat(flight.getFlightName(), equalTo(flightName));
   }
 
+  /**
+   * Tests that assign a flight number to a flight
+   */
   @Test
   void flightNumber666Is666() {
     int flightNumber = 666;
@@ -65,6 +74,9 @@ public class FlightTest {
     assertThat(flight.getNumber(), equalTo(flightNumber));
   }
 
+  /**
+   * Tests that invalid flight number issues an error
+   */
   @Test
   void invalidFlightNumberShouldNotPass1() {
     int flightNumber = -666;
@@ -77,19 +89,25 @@ public class FlightTest {
         Flight flight = new Flight("CS410J Air Express", 666, "ABC", "3/15/2023 10:39" ,"EGF", "03/2/2023 1:03");
         assertThat(flight.setFlightNumber(flightNumber),  containsString("Invalid Flight Number"));
     }
+  /**
+   * Tests that invalid src dest issues an error
+   */
   @Test
   void invalidSrcAndDestCodeShouldNotPass() {
     String src = "Not src";
     Flight flight = new Flight("CS410J Air Express", 666, src, "3/15/2023 10:39" ,"EGF", "03/2/2023 1:03");
     assertThat(flight.setSource(src),  containsString("Invalid Src or Dest Code"));
   }
-
   @Test
   void invalidSrcAndDestCodeShouldNotPass2() {
     String dest = "Not dest";
     Flight flight = new Flight("CS410J Air Express", 666, "ABC", "3/15/2023 10:39" ,dest, "03/2/2023 1:03");
     assertThat(flight.setDestination(dest),  containsString("Invalid Src or Dest Code"));
   }
+
+  /**
+   * Tests that invalid date and time issues an error
+   */
   @Test
   void invalidDateAndTimeShouldNotPass1() {
     String departTime = "Not Depart Time";

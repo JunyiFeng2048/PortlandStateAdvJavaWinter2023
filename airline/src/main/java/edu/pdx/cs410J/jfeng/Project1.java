@@ -48,7 +48,6 @@ public class Project1 {
 
   static boolean isValidSrcAndDestCode(String str)
   {
-
     if(str.length() != 3)
     {
       System.err.println("Invalid Src or Dest Code");
