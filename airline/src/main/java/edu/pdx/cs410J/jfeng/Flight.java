@@ -8,7 +8,6 @@ import java.util.Date;
 
 public class Flight extends AbstractFlight {
 
-  private String flightName;
   private int flightNumber;
   private String src;
   private String departTime;
@@ -18,9 +17,8 @@ public class Flight extends AbstractFlight {
   public Flight() {}
 
 
-  public Flight(String flightName, int flightNumber, String src, String departTime, String destination, String arriveTime)
+  public Flight(int flightNumber, String src, String departTime, String destination, String arriveTime)
   {
-    this.flightName = flightName;
     this.flightNumber = flightNumber;
     this.src = src;
     this.departTime = departTime;
@@ -28,11 +26,6 @@ public class Flight extends AbstractFlight {
     this.arriveTime = arriveTime;
   }
 
-
-  public String getFlightName()
-  {
-    return flightName;
-  }
 
   @Override
   public int getNumber()
@@ -64,10 +57,6 @@ public class Flight extends AbstractFlight {
     return arriveTime;
   }
 
-  public void setFlightName(String flightName)
-  {
-    this.flightName = flightName;
-  }
 
   public String setFlightNumber(int flightNumber)
   {

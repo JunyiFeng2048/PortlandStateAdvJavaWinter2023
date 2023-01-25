@@ -10,6 +10,7 @@ public class Airline extends AbstractAirline<Flight> {
 
   private ArrayList<Flight> flightArrayList = new ArrayList<>();
 
+
   public Airline(String name)
   {
     this.name = name;
@@ -27,6 +28,7 @@ public class Airline extends AbstractAirline<Flight> {
     //throw new UnsupportedOperationException("This method is not implemented yet");
     flightArrayList.add(flight);
   }
+
 
   @Override
   public Collection<Flight> getFlights()

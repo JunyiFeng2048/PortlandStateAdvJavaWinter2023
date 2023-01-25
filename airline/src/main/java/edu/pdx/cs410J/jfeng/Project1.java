@@ -32,7 +32,7 @@ public class Project1 {
     try
     {
       int fn = Integer.parseInt(flightNumber);
-      if(fn < 0)
+      if(fn < 0 || fn > 999)
       {
         System.err.println("Invalid Flight Number");
         return false;
@@ -120,13 +120,15 @@ public class Project1 {
       {
         //Flight flight = new Flight(args[1], Integer.parseInt(args[2]), args[3], args[4], args[5], args[6]);
         Flight flight = new Flight();
-        flight.setFlightName(args[1]);
+        //flight.setFlightName(args[1]);
         flight.setFlightNumber(Integer.parseInt(args[2]));
         flight.setSource(args[3]);
         flight.setDepartTime(args[4]);;
         flight.setDestination(args[5]);
         flight.setArriveTime(args[6]);
         System.out.println(flight.toString());
+        Airline airline = new Airline(args[1]);
+        airline.addFlight(flight);
       }
     }
   }
