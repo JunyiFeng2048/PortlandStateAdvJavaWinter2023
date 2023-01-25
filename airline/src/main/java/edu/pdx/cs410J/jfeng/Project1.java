@@ -75,7 +75,7 @@ public class Project1 {
         System.out.println(s);
 
     } catch (IOException e) {
-      System.err.printf("README.txx does not exist");;
+      System.err.printf("README.txt does not exist");;
     }
   }
 
@@ -84,6 +84,18 @@ public class Project1 {
     if (args.length == 0)
     {
       System.err.println("Missing command line arguments");
+      System.out.println("\tusage: java -jar target/airline-2023.0.0.jar [options] <args>\n" +
+              "\t\targs are (in this order):\n" +
+              "\t\t\tairline The name of the airline\n" +
+              "\t\t\tflightNumber The flight number\n" +
+              "\t\t\tsrc Three-letter code of departure airport\n" +
+              "\t\t\tdepart Departure date and time (24-hour time)\n" +
+              "\t\t\tdest Three-letter code of arrival airport\n" +
+              "\t\t\tarrive Arrival date and time (24-hour time)\n" +
+              "\t\toptions are (options may appear in any order):\n" +
+              "\t\t\t-print Prints a description of the new flight\n" +
+              "\t\t\t-README Prints a README for this project and exits\n" +
+              "\t*Date and time should be in the format: mm/dd/yyyy hh:mm");
       return;
     }
     else if (args.length > 7)
