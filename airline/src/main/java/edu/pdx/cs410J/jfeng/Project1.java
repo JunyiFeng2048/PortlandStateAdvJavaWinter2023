@@ -62,7 +62,7 @@ public class Project1 {
     return true;
   }
 
-  static void getREADME()
+  static boolean getREADME()
   {
     try (
             InputStream readme = Project1.class.getResourceAsStream("README.txt")
@@ -75,7 +75,9 @@ public class Project1 {
 
     } catch (IOException e) {
       System.err.printf("README.txt does not exist");;
+      return false;
     }
+    return true;
   }
 
   public static void main(String[] args) throws IOException

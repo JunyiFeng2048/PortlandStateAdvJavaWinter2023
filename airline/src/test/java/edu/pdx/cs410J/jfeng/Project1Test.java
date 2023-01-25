@@ -110,4 +110,11 @@ class Project1Test {
         assertFalse(result);
     }
 
+    @Test
+    void checkGetREAMDE()
+    {
+        Project1 project1 = new Project1();
+        assertTrue(project1.getREADME());
+    }
+
 }

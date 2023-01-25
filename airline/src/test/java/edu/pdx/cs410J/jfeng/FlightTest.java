@@ -87,11 +87,26 @@ public class FlightTest {
         Flight flight = new Flight(flightNumber, "ABC", "3/15/2023 10:39" ,"EGF", "03/2/2023 1:03");
         assertThat(flight.setFlightNumber(flightNumber),  containsString("Invalid Flight Number"));
     }
+
   /**
    * Tests that invalid src dest issues an error
    */
+
   @Test
-  void invalidSrcAndDestCodeShouldNotPass() {
+  void validSrcAndDestCodeShouldPass1() {
+    String src = "ABC";
+    Flight flight = new Flight(666, src, "3/15/2023 10:39" ,"DEF", "03/2/2023 1:03");
+    assertThat(flight.setSource(src),  containsString("Valid Src or Dest Code"));
+  }
+  @Test
+  void validSrcAndDestCodeShouldPass2() {
+    String dest = "ABC";
+    Flight flight = new Flight(666, "ABC", "3/15/2023 10:39" ,dest, "03/2/2023 1:03");
+    assertThat(flight.setDestination(dest),  containsString("Valid Src or Dest Code"));
+  }
+
+  @Test
+  void invalidSrcAndDestCodeShouldNotPass1() {
     String src = "Not src";
     Flight flight = new Flight(666, src, "3/15/2023 10:39" ,"EGF", "03/2/2023 1:03");
     assertThat(flight.setSource(src),  containsString("Invalid Src or Dest Code"));
@@ -99,6 +114,19 @@ public class FlightTest {
   @Test
   void invalidSrcAndDestCodeShouldNotPass2() {
     String dest = "Not dest";
+    Flight flight = new Flight(666, "ABC", "3/15/2023 10:39" ,dest, "03/2/2023 1:03");
+    assertThat(flight.setDestination(dest),  containsString("Invalid Src or Dest Code"));
+  }
+  @Test
+  void invalidSrcAndDestCodeShouldNotPass3() {
+    String src = "A1A";
+    Flight flight = new Flight(666, src, "3/15/2023 10:39" ,"DEF", "03/2/2023 1:03");
+    assertThat(flight.setSource(src),  containsString("Invalid Src or Dest Code"));
+  }
+
+  @Test
+  void invalidSrcAndDestCodeShouldNotPass4() {
+    String dest = "A1A";
     Flight flight = new Flight(666, "ABC", "3/15/2023 10:39" ,dest, "03/2/2023 1:03");
     assertThat(flight.setDestination(dest),  containsString("Invalid Src or Dest Code"));
   }
