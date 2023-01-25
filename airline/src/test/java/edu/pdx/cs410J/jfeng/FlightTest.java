@@ -2,6 +2,8 @@ package edu.pdx.cs410J.jfeng;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,16 +19,18 @@ public class FlightTest {
    * This unit test will need to be modified (likely deleted) as you implement
    * your project.
    */
+ /*
   @Test
   void getArrivalStringNeedsToBeImplemented() {
     Flight flight = new Flight();
     assertThrows(UnsupportedOperationException.class, flight::getArrivalString);
   }
-
+*/
   /**
    * This unit test will need to be modified (likely deleted) as you implement
    * your project.
    */
+  /*
   @Test
   void initiallyAllFlightsHaveTheSameNumber() {
     Flight flight = new Flight();
@@ -38,5 +42,43 @@ public class FlightTest {
     Flight flight = new Flight();
     assertThat(flight.getDeparture(), is(nullValue()));
   }
-  
+  */
+    @Test
+    void NullAirlineNameThrowsNullPointerException()
+    {
+      Flight flight = new Flight(null, 666, "ABC", "3/15/2023 10:39" ,"EGF", "03/2/2023 1:03");
+      assertThat(flight.flightName, is(nullValue()));
+    }
+
+
+/*
+  @Test
+  void NullAirlineNameThrowsNullPointerException()
+  {
+    Flight flight = new Flight("CS410J Air Express", 666, "ABC", "3/15/2023 10:39" ,"EGF", "03/2/2023 1:03");
+    assertThat(flight.flightName, is(nullValue()));
+  }
+
+  @Test
+  void NullAirlineNameThrowsNullPointerException()
+  {
+    Flight flight = new Flight("CS410J Air Express", 666, "ABC", "3/15/2023 10:39" ,"EGF", "03/2/2023 1:03");
+    assertThat(flight.flightName, is(nullValue()));
+  }
+
+  @Test
+  void NullAirlineNameThrowsNullPointerException()
+  {
+    Flight flight = new Flight("CS410J Air Express", 666, "ABC", "3/15/2023 10:39" ,"EGF", "03/2/2023 1:03");
+    assertThat(flight.flightName, is(nullValue()));
+  }
+
+  @Test
+  void NullAirlineNameThrowsNullPointerException()
+  {
+    Flight flight = new Flight("CS410J Air Express", 666, "ABC", "3/15/2023 10:39" ,"EGF", "03/2/2023 1:03");
+    assertThat(flight.flightName, is(nullValue()));
+  }
+  */
+
 }
