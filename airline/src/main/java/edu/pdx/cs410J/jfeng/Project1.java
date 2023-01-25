@@ -14,8 +14,7 @@ import java.util.Date;
  * The main class for the CS410J airline Project
  */
 public class Project1 {
-
-  @VisibleForTesting
+  //@VisibleForTesting
   static boolean isValidDateAndTime(String dateAndTime)
   {
     try {
@@ -33,18 +32,55 @@ public class Project1 {
     try
     {
       int fn = Integer.parseInt(flightNumber);
+      if(fn < 0)
+      {
+        System.err.println("Invalid Flight Number");
+        return false;
+      }
     }
     catch (NumberFormatException e)
     {
-      System.err.println("Invalid FlightNumber");
+      System.err.println("Invalid Flight Number");
       return false;
     }
     return true;
   }
 
-  public static void main(String[] args) throws IOException
+  static boolean isValidSrcAndDestCode(String str)
   {
 
+    if(str.length() != 3)
+    {
+      System.err.println("Invalid Src or Dest Code");
+      return false;
+    }
+    for (int i = 0; i < 3; i++) {
+      if ((Character.isLetter(str.charAt(i)) == false)) {
+        System.err.println("Invalid Src or Dest Code");
+        return false;
+      }
+    }
+    return true;
+  }
+
+  static void getREADME()
+  {
+    try (
+            InputStream readme = Project1.class.getResourceAsStream("README.txt")
+    )
+    {
+      BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
+      String s;
+      while ((s=reader.readLine())!=null)
+        System.out.println(s);
+
+    } catch (IOException e) {
+      System.err.printf("README.txx does not exist");;
+    }
+  }
+
+  public static void main(String[] args) throws IOException
+  {
     if (args.length == 0)
     {
       System.err.println("Missing command line arguments");
@@ -64,23 +100,23 @@ public class Project1 {
     }
     else if(firstArg.equals("-README"))
     {
-      try (
-              InputStream readme = Project1.class.getResourceAsStream("README.txt")
-      )
-      {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
-        String README = reader.readLine();
-        System.out.println(README);
-      }
+      getREADME();
     }
     else if (firstArg.equals("-print"))
     {
-      if(isValidFlightNumber(args[2]) && isValidDateAndTime(args[4]) && isValidDateAndTime(args[6]))
+      if(isValidFlightNumber(args[2]) && isValidDateAndTime(args[4]) && isValidDateAndTime(args[6])
+      && isValidSrcAndDestCode(args[3]) && isValidSrcAndDestCode(args[5]))
       {
-        Flight flight = new Flight(args[1], Integer.parseInt(args[2]), args[3], args[4], args[5], args[6]);
+        //Flight flight = new Flight(args[1], Integer.parseInt(args[2]), args[3], args[4], args[5], args[6]);
+        Flight flight = new Flight();
+        flight.setFlightName(args[1]);
+        flight.setFlightNumber(Integer.parseInt(args[2]));
+        flight.setSource(args[3]);
+        flight.setDepartTime(args[4]);;
+        flight.setDestination(args[5]);
+        flight.setArriveTime(args[6]);
         System.out.println(flight.toString());
       }
-
     }
   }
 

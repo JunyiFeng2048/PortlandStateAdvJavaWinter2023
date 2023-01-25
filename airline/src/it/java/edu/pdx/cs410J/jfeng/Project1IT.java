@@ -15,7 +15,8 @@ class Project1IT extends InvokeMainTestCase {
     /**
      * Invokes the main method of {@link Project1} with the given arguments.
      */
-    private MainMethodResult invokeMain(String... args) {
+    private MainMethodResult invokeMain(String... args)
+    {
         return invokeMain( Project1.class, args );
     }
 
@@ -24,8 +25,8 @@ class Project1IT extends InvokeMainTestCase {
    */
   @Test
   void testNoCommandLineArguments() {
-    MainMethodResult result = invokeMain();
-    assertThat(result.getTextWrittenToStandardError(), containsString("Missing command line arguments"));
+      MainMethodResult result = invokeMain();
+      assertThat(result.getTextWrittenToStandardError(), containsString("Missing command line arguments"));
   }
 
   @Test
@@ -35,24 +36,49 @@ class Project1IT extends InvokeMainTestCase {
       assertThat(result.getTextWrittenToStandardError(), containsString("Not enough arguments"));
   }
 
-    @Test
-    void testToManyCommandLineArguments()
-    {
-        MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "3/15/2023 10:39", "EFG", "03/2/2023 1:03", "Extra arg");
-        assertThat(result.getTextWrittenToStandardError(), containsString("Too many command line arguments"));
-    }
   @Test
-  void testIsValidFlightNumber()
+  void testToManyCommandLineArguments()
+  {
+      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "3/15/2023 10:39", "EFG", "03/2/2023 1:03", "Extra arg");
+      assertThat(result.getTextWrittenToStandardError(), containsString("Too many command line arguments"));
+  }
+  @Test
+  void testIsValidCommandLineFlightNumber1()
   {
       MainMethodResult result = invokeMain("-print", "CS410J Air Express", "not", "ABC", "3/15/2023 10:39", "EFG", "03/2/2023 1:03");
-      assertThat(result.getTextWrittenToStandardError(), containsString("Invalid FlightNumber"));
+      assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Flight Number"));
   }
 
-    @Test
-    void testIsValidDataAndTime()
-    {
-        MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "not date", "EFG", "not time");
-        assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Date and Time"));
-    }
+  @Test
+  void testIsValidCommandLineFlightNumber2()
+  {
+      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "-666", "ABC", "3/15/2023 10:39", "EFG", "03/2/2023 1:03");
+      assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Flight Number"));
+  }
 
+  @Test
+  void testIsValidCommandLineDataAndTime1()
+  {
+      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "not date", "EFG", "not time");
+      assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Date and Time"));
+  }
+  @Test
+  void testIsValidCommandLineDataAndTime2()
+  {
+        MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "3/15/2023", "EFG", "03/2/2023");
+        assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Date and Time"));
+  }
+  @Test
+  void testIsValidCommandLineSrcAndDestCode1()
+  {
+      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "3/15/2023 10:39", "DEFG", "03/2/2023 1:03");
+      assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Src or Dest Code"));
+  }
+
+  @Test
+  void testIsValidCommandLineSrcAndDestCode2()
+  {
+      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "123", "3/15/2023 10:39", "12G", "03/2/2023 1:03");
+      assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Src or Dest Code"));
+  }
 }
