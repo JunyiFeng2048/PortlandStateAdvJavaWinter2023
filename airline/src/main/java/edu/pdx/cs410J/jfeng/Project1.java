@@ -80,59 +80,74 @@ public class Project1 {
     return true;
   }
 
+  static void usageMessage()
+  {
+    System.out.println("\tusage: java -jar target/airline-2023.0.0.jar [options] <args>\n" +
+            "\t\targs are (in this order):\n" +
+            "\t\t\tairline The name of the airline\n" +
+            "\t\t\tflightNumber The flight number\n" +
+            "\t\t\tsrc Three-letter code of departure airport\n" +
+            "\t\t\tdepart Departure date and time (24-hour time)\n" +
+            "\t\t\tdest Three-letter code of arrival airport\n" +
+            "\t\t\tarrive Arrival date and time (24-hour time)\n" +
+            "\t\toptions are (options may appear in any order):\n" +
+            "\t\t\t-print Prints a description of the new flight\n" +
+            "\t\t\t-README Prints a README for this project and exits\n" +
+            "\t*Date and time should be in the format: mm/dd/yyyy hh:mm");
+  }
+
   public static void main(String[] args) throws IOException
   {
     if (args.length == 0)
     {
       System.err.println("Missing command line arguments");
-      System.out.println("\tusage: java -jar target/airline-2023.0.0.jar [options] <args>\n" +
-              "\t\targs are (in this order):\n" +
-              "\t\t\tairline The name of the airline\n" +
-              "\t\t\tflightNumber The flight number\n" +
-              "\t\t\tsrc Three-letter code of departure airport\n" +
-              "\t\t\tdepart Departure date and time (24-hour time)\n" +
-              "\t\t\tdest Three-letter code of arrival airport\n" +
-              "\t\t\tarrive Arrival date and time (24-hour time)\n" +
-              "\t\toptions are (options may appear in any order):\n" +
-              "\t\t\t-print Prints a description of the new flight\n" +
-              "\t\t\t-README Prints a README for this project and exits\n" +
-              "\t*Date and time should be in the format: mm/dd/yyyy hh:mm");
-      return;
-    }
-    else if (args.length > 7)
-    {
-      System.err.println("Too many command line arguments");
+      usageMessage();
       return;
     }
 
+
     String firstArg = args[0];
-    if (args.length != 7 && !firstArg.equals("-README") )
-    {
-      System.err.println("Not enough arguments");
-      return;
-    }
-    else if(firstArg.equals("-README"))
+    int argsLength = args.length;
+    Flight flight = new Flight();
+    if(firstArg.equals("-README"))
     {
       getREADME();
     }
-    else if (firstArg.equals("-print"))
+    else if(argsLength == 6 && !firstArg.equals("-print"))
+    {
+      if(isValidFlightNumber(args[1]) && isValidDateAndTime(args[3]) && isValidDateAndTime(args[5])
+              && isValidSrcAndDestCode(args[2]) && isValidSrcAndDestCode(args[4]))
+      {
+        flight.setFlightNumber(Integer.parseInt(args[1]));
+        flight.setSource(args[2]);
+        flight.setDepartTime(args[3]);;
+        flight.setDestination(args[4]);
+        flight.setArriveTime(args[5]);
+        Airline airline = new Airline(args[0]);
+        airline.addFlight(flight);
+        System.out.println("Successfully added a flight to " + args[0]);
+      }
+    }
+    else if(argsLength == 7 && firstArg.equals("-print"))
     {
       if(isValidFlightNumber(args[2]) && isValidDateAndTime(args[4]) && isValidDateAndTime(args[6])
-      && isValidSrcAndDestCode(args[3]) && isValidSrcAndDestCode(args[5]))
+              && isValidSrcAndDestCode(args[3]) && isValidSrcAndDestCode(args[5]))
       {
-        //Flight flight = new Flight(args[1], Integer.parseInt(args[2]), args[3], args[4], args[5], args[6]);
-        Flight flight = new Flight();
-        //flight.setFlightName(args[1]);
         flight.setFlightNumber(Integer.parseInt(args[2]));
         flight.setSource(args[3]);
         flight.setDepartTime(args[4]);;
         flight.setDestination(args[5]);
         flight.setArriveTime(args[6]);
-        System.out.println(flight.toString());
         Airline airline = new Airline(args[1]);
         airline.addFlight(flight);
+        System.out.println(flight.toString());
       }
     }
+    else
+    {
+      System.err.println("Command line arguments are invalid. See '-README'");
+    }
+
   }
 
 }
