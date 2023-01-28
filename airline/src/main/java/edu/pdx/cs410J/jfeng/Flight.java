@@ -10,22 +10,23 @@ public class Flight extends AbstractFlight {
 
   private int flightNumber;
   private String src;
+  private String departDate;
   private String departTime;
   private String destination;
+  private String arriveDate;
   private String arriveTime;
 
   public Flight() {}
 
-
-  public Flight(int flightNumber, String src, String departTime, String destination, String arriveTime)
-  {
+  public Flight(int flightNumber, String src, String departDate, String departTime, String destination, String arriveDate, String arriveTime) {
     this.flightNumber = flightNumber;
     this.src = src;
+    this.departDate = departDate;
     this.departTime = departTime;
     this.destination = destination;
+    this.arriveDate = arriveDate;
     this.arriveTime = arriveTime;
   }
-
 
   @Override
   public int getNumber()
@@ -42,7 +43,8 @@ public class Flight extends AbstractFlight {
   @Override
   public String getDepartureString()
   {
-    return departTime;
+    String departureString = departDate + " " + departTime;
+    return departureString;
   }
 
   @Override
@@ -54,7 +56,8 @@ public class Flight extends AbstractFlight {
   @Override
   public String getArrivalString()
   {
-    return arriveTime;
+    String arriveString = arriveDate + " " + arriveTime;
+    return arriveString;
   }
 
 
@@ -76,13 +79,22 @@ public class Flight extends AbstractFlight {
     return "Valid Src or Dest Code";
   }
 
+  public String setDepartDate(String departDate)
+  {
+    if(checkValidDate(departDate))
+      this.departDate = departDate;
+    else
+      return "Invalid Date";
+    return "Valid Date";
+  }
+
   public String setDepartTime(String departTime)
   {
-    if(checkValidDateAndTime(departTime))
+    if(checkValidTime(departTime))
       this.departTime = departTime;
     else
-      return "Invalid Date and Time";
-    return "Valid Date and Time";
+      return "Invalid Time";
+    return "Valid Time";
   }
 
   public String setDestination(String destination)
@@ -94,14 +106,24 @@ public class Flight extends AbstractFlight {
     return "Valid Src or Dest Code";
   }
 
+  public String setArriveDate(String arriveDate)
+  {
+    if(checkValidDate(arriveDate))
+      this.arriveDate = arriveDate;
+    else
+      return "Invalid Date";
+    return "Valid Date";
+  }
+
   public String setArriveTime(String arriveTime)
   {
-    if(checkValidDateAndTime(arriveTime))
+    if(checkValidTime(arriveTime))
       this.arriveTime = arriveTime;
     else
-      return "Invalid Date and Time";
-    return "Valid Date and Time";
+      return "Invalid Time";
+    return "Valid Time";
   }
+
 
   public boolean checkValidFlightNumber(int flightNumber)
   {
@@ -110,10 +132,21 @@ public class Flight extends AbstractFlight {
     return true;
   }
 
-  public boolean checkValidDateAndTime(String dateAndTime)
+  public boolean checkValidDate(String date)
   {
     try {
-      Date date = new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(dateAndTime);
+      new SimpleDateFormat("MM/dd/yyyy").parse(date);
+    } catch (ParseException e)
+    {
+      return false;
+    }
+    return true;
+  }
+
+  public boolean checkValidTime(String time)
+  {
+    try {
+      new SimpleDateFormat("HH:mm").parse(time);
     } catch (ParseException e)
     {
       return false;

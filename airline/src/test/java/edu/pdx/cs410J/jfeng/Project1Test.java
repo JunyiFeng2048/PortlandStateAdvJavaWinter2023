@@ -32,30 +32,36 @@ class Project1Test {
     }
 
     @Test
-    void checkIsValidDateAndTimeMethod()
+    void checkIsValidDateMethod()
     {
-        String dateAndTime = "11/03/1998 11:03";
+        String date = "1/03/1998/09";
+        String time = "11:03";
+
         Project1 project1 = new Project1();
-        boolean result = project1.isValidDateAndTime(dateAndTime);
-        assertTrue(result);
+        boolean result = project1.isValidDateAndTime(date, time);
+        assertFalse(result);
     }
     @Test
-    void checkIsValidDateAndTimeMethod2()
+    void checkIsValidDateMethod2()
     {
-        String dateAndTime = "11/03/1998";
+        String date = "11/03";
+        String time = "11:03";
         Project1 project1 = new Project1();
-        boolean result = project1.isValidDateAndTime(dateAndTime);
+        boolean result = project1.isValidDateAndTime(date, time);
         assertFalse(result);
     }
 
     @Test
-    void checkIsValidDateAndTimeMethod3()
+    void checkIsValidDateMethod3()
     {
-        String dateAndTime = "not date";
+        String date = "not date";
+        String time = "11:03";
+
         Project1 project1 = new Project1();
-        boolean result = project1.isValidDateAndTime(dateAndTime);
+        boolean result = project1.isValidDateAndTime(date, time);
         assertFalse(result);
     }
+
 
     @Test
     void checkIsValidFlightNumberMethod1()

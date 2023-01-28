@@ -15,10 +15,11 @@ import java.util.Date;
  */
 public class Project1 {
   //@VisibleForTesting
-  static boolean isValidDateAndTime(String dateAndTime)
+  static boolean isValidDateAndTime(String date, String time)
   {
+    String dateAndTime = date + " " + time;
     try {
-      Date date = new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(dateAndTime);
+      new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(dateAndTime);
     } catch (ParseException e)
     {
       System.err.println("Invalid Date and Time");
@@ -26,6 +27,7 @@ public class Project1 {
     }
     return true;
   }
+
 
   static boolean isValidFlightNumber(String flightNumber)
   {
@@ -113,31 +115,38 @@ public class Project1 {
     {
       getREADME();
     }
-    else if(argsLength == 6 && !firstArg.equals("-print"))
+    else if(argsLength == 8 && !firstArg.equals("-print"))
     {
-      if(isValidFlightNumber(args[1]) && isValidDateAndTime(args[3]) && isValidDateAndTime(args[5])
-              && isValidSrcAndDestCode(args[2]) && isValidSrcAndDestCode(args[4]))
+      if(isValidFlightNumber(args[1]) && isValidDateAndTime(args[3],args[4])
+              && isValidDateAndTime(args[6],args[7]) && isValidSrcAndDestCode(args[2])
+              && isValidSrcAndDestCode(args[5]))
       {
         flight.setFlightNumber(Integer.parseInt(args[1]));
         flight.setSource(args[2]);
-        flight.setDepartTime(args[3]);;
-        flight.setDestination(args[4]);
-        flight.setArriveTime(args[5]);
+        flight.setDepartDate(args[3]);
+        flight.setDepartTime(args[4]);
+        flight.setDestination(args[5]);
+        flight.setArriveDate(args[6]);
+        flight.setArriveTime(args[7]);
         Airline airline = new Airline(args[0]);
         airline.addFlight(flight);
         System.out.println("Successfully added a flight to " + args[0]);
       }
     }
-    else if(argsLength == 7 && firstArg.equals("-print"))
+    else if(argsLength == 9 && firstArg.equals("-print"))
     {
-      if(isValidFlightNumber(args[2]) && isValidDateAndTime(args[4]) && isValidDateAndTime(args[6])
-              && isValidSrcAndDestCode(args[3]) && isValidSrcAndDestCode(args[5]))
+      if(isValidFlightNumber(args[2]) && isValidDateAndTime(args[4],args[5])
+              && isValidDateAndTime(args[7],args[8])
+              && isValidSrcAndDestCode(args[3])
+              && isValidSrcAndDestCode(args[6]))
       {
         flight.setFlightNumber(Integer.parseInt(args[2]));
         flight.setSource(args[3]);
-        flight.setDepartTime(args[4]);;
-        flight.setDestination(args[5]);
-        flight.setArriveTime(args[6]);
+        flight.setDepartDate(args[4]);
+        flight.setDepartTime(args[5]);;
+        flight.setDestination(args[6]);
+        flight.setArriveDate(args[7]);
+        flight.setArriveTime(args[8]);
         Airline airline = new Airline(args[1]);
         airline.addFlight(flight);
         System.out.println(flight.toString());
@@ -145,7 +154,7 @@ public class Project1 {
     }
     else
     {
-      System.err.println("Command line arguments are invalid. See '-README'");
+      System.err.println("Invalid or missing command line argument. See '-README'");
     }
 
   }

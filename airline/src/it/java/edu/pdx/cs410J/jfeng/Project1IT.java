@@ -41,15 +41,15 @@ class Project1IT extends InvokeMainTestCase {
   @Test
   void testNotEnoughCommandLineArguments1()
   {
-      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "3/15/2023 10:39");
-      assertThat(result.getTextWrittenToStandardError(), containsString("Command line arguments are invalid. See '-README'"));
+      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "3/15/2023", "10:39");
+      assertThat(result.getTextWrittenToStandardError(), containsString("Invalid or missing command line argument. See '-README'"));
   }
 
   @Test
   void testNotEnoughCommandLineArguments2()
   {
       MainMethodResult result = invokeMain("CS410J Air Express", "666", "ABC", "3/15/2023 10:39");
-      assertThat(result.getTextWrittenToStandardError(), containsString("Command line arguments are invalid. See '-README'"));
+      assertThat(result.getTextWrittenToStandardError(), containsString("Invalid or missing command line argument. See '-README'"));
   }
 
     /**
@@ -59,14 +59,14 @@ class Project1IT extends InvokeMainTestCase {
   void testToManyCommandLineArguments1()
   {
       MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "3/15/2023 10:39", "EFG", "03/2/2023 1:03", "Extra arg");
-      assertThat(result.getTextWrittenToStandardError(), containsString("Command line arguments are invalid. See '-README'"));
+      assertThat(result.getTextWrittenToStandardError(), containsString("Invalid or missing command line argument. See '-README'"));
   }
 
   @Test
   void testToManyCommandLineArguments2()
   {
       MainMethodResult result = invokeMain( "CS410J Air Express", "666", "ABC", "3/15/2023 10:39", "EFG", "03/2/2023 1:03", "Extra arg");
-      assertThat(result.getTextWrittenToStandardError(), containsString("Command line arguments are invalid. See '-README'"));
+      assertThat(result.getTextWrittenToStandardError(), containsString("Invalid or missing command line argument. See '-README'"));
   }
 
     @Test
@@ -99,28 +99,28 @@ class Project1IT extends InvokeMainTestCase {
   @Test
   void testIsValidCommandLineFlightNumber1()
   {
-      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "not", "ABC", "3/15/2023 10:39", "EFG", "03/2/2023 1:03");
+      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "not", "ABC", "3/15/2023", "10:39", "EFG", "03/2/2023", "1:03");
       assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Flight Number"));
   }
 
   @Test
   void testIsValidCommandLineFlightNumber2()
   {
-      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "-666", "ABC", "3/15/2023 10:39", "EFG", "03/2/2023 1:03");
+      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "-666", "ABC", "3/15/2023", "10:39", "EFG", "03/2/2023", "1:03");
       assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Flight Number"));
   }
 
     @Test
     void testIsValidCommandLineFlightNumber3()
     {
-        MainMethodResult result = invokeMain("CS410J Air Express", "not", "ABC", "3/15/2023 10:39", "EFG", "03/2/2023 1:03");
+        MainMethodResult result = invokeMain("CS410J Air Express", "not", "ABC", "3/15/2023", "10:39", "EFG", "03/2/2023", "1:03");
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Flight Number"));
     }
 
     @Test
     void testIsValidCommandLineFlightNumber4()
     {
-        MainMethodResult result = invokeMain("CS410J Air Express", "-666", "ABC", "3/15/2023 10:39", "EFG", "03/2/2023 1:03");
+        MainMethodResult result = invokeMain("CS410J Air Express", "-666", "ABC", "3/15/2023", "10:39", "EFG", "03/2/2023", "1:03");
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Flight Number"));
     }
 
@@ -130,26 +130,26 @@ class Project1IT extends InvokeMainTestCase {
   @Test
   void testIsValidCommandLineDateAndTime1()
   {
-      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "not date", "EFG", "not time");
+      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "not date", "10:39", "EFG", "not time", "11:03");
       assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Date and Time"));
   }
   @Test
   void testIsValidCommandLineDateAndTime2()
   {
-        MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "3/15/2023", "EFG", "03/2/2023");
+        MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "3/15/2023", "not time", "EFG", "03/2/2023", "not time");
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Date and Time"));
   }
 
     @Test
     void testIsValidCommandLineDateAndTime3()
     {
-        MainMethodResult result = invokeMain("CS410J Air Express", "666", "ABC", "not date", "EFG", "not time");
+        MainMethodResult result = invokeMain("CS410J Air Express", "666", "ABC", "101/04/20/1", "11:03", "EFG", "3/13/2021", "2:03");
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Date and Time"));
     }
     @Test
     void testIsValidCommandLineDateAndTime4()
     {
-        MainMethodResult result = invokeMain("CS410J Air Express", "666", "ABC", "3/15/2023", "EFG", "03/2/2023");
+        MainMethodResult result = invokeMain("CS410J Air Express", "666", "ABC", "3/15/2023", "23", "EFG", "03/2/2023", "11:03");
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Date and Time"));
     }
 
@@ -159,47 +159,46 @@ class Project1IT extends InvokeMainTestCase {
   @Test
   void testIsValidCommandLineSrcAndDestCode1()
   {
-      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "3/15/2023 10:39", "DEFG", "03/2/2023 1:03");
+      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABCE", "3/15/2023", "10:39", "12G", "03/2/2023", "1:03");
       assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Src or Dest Code"));
   }
 
   @Test
   void testIsValidCommandLineSrcAndDestCode2()
   {
-      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "123", "3/15/2023 10:39", "12G", "03/2/2023 1:03");
+      MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "123", "3/15/2023", "10:39", "12G", "03/2/2023", "1:03");
       assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Src or Dest Code"));
   }
 
     @Test
     void testIsValidCommandLineSrcAndDestCode3()
     {
-        MainMethodResult result = invokeMain("CS410J Air Express", "666", "ABC", "3/15/2023 10:39", "DEFG", "03/2/2023 1:03");
+        MainMethodResult result = invokeMain("CS410J Air Express", "666", "ABC", "3/15/2023", "10:39", "DEFG", "03/2/2023", "1:03");
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Src or Dest Code"));
     }
 
     @Test
     void testIsValidCommandLineSrcAndDestCode4()
     {
-        MainMethodResult result = invokeMain("CS410J Air Express", "666", "123", "3/15/2023 10:39", "12G", "03/2/2023 1:03");
+        MainMethodResult result = invokeMain("CS410J Air Express", "666", "123", "3/15/2023", "10:39", "DEF", "03/2/2023", "1:03");
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Src or Dest Code"));
     }
 
     @Test
-    void testAddflight()
+    void testAddFlight()
     {
-        MainMethodResult result = invokeMain("CS410J Air Express", "666", "ABC", "3/15/2023 10:39", "DEF", "03/2/2023 1:03");
+        MainMethodResult result = invokeMain("CS410J Air Express", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/2/2023", "1:03");
         assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight to " + "CS410J Air Express"));
     }
 
     @Test
     void testPrintFlight()
     {
-        MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "3/15/2023 10:39", "DEF", "03/2/2023 1:03");
+        MainMethodResult result = invokeMain("-print", "CS410J Air Express", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/2/2023", "1:03");
         assertThat(result.getTextWrittenToStandardOut(), containsString("Flight"));
         assertThat(result.getTextWrittenToStandardOut(), containsString("departs"));
         assertThat(result.getTextWrittenToStandardOut(), containsString("at"));
         assertThat(result.getTextWrittenToStandardOut(), containsString("arrives"));
-
 
     }
 }
