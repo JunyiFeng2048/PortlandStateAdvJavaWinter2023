@@ -8,12 +8,13 @@ import java.util.Collection;
 public class Airline extends AbstractAirline<Flight> {
   private final String name;
 
-  private ArrayList<Flight> flightArrayList = new ArrayList<>();
+  private ArrayList<Flight> flightArrayList;
 
 
   public Airline(String name)
   {
     this.name = name;
+    flightArrayList = new ArrayList<>();
   }
 
   @Override

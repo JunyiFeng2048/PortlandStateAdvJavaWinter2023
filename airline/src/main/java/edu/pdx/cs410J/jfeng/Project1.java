@@ -1,19 +1,20 @@
 package edu.pdx.cs410J.jfeng;
 
 import com.google.common.annotations.VisibleForTesting;
+import edu.pdx.cs410J.ParserException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
  * The main class for the CS410J airline Project
  */
-public class Project1 {
+public class Project1
+{
   //@VisibleForTesting
   static boolean isValidDateAndTime(String date, String time)
   {
@@ -27,7 +28,6 @@ public class Project1 {
     }
     return true;
   }
-
 
   static boolean isValidFlightNumber(String flightNumber)
   {
@@ -56,12 +56,26 @@ public class Project1 {
       return false;
     }
     for (int i = 0; i < 3; i++) {
-      if ((Character.isLetter(str.charAt(i)) == false)) {
+      if ((Character.isLetter(str.charAt(i)) == false))
+      {
         System.err.println("Invalid Src or Dest Code");
         return false;
       }
     }
     return true;
+  }
+
+  static boolean isValidFileName(String fileName)
+  {
+    String fileType = ".txt";
+
+    if(fileType.equals(fileName.substring(fileName.length() - 4)) && !fileName.contains("/"))
+    {
+      return true;
+    }
+    System.err.println("Invalid file name, must just the file name and end with '.txt'");
+    return false;
+
   }
 
   static boolean getREADME()
@@ -72,7 +86,7 @@ public class Project1 {
     {
       BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
       String s;
-      while ((s=reader.readLine())!=null)
+      while ((s=reader.readLine()) != null)
         System.out.println(s);
 
     } catch (IOException e) {
@@ -98,7 +112,18 @@ public class Project1 {
             "\t*Date and time should be in the format: mm/dd/yyyy hh:mm");
   }
 
-  public static void main(String[] args) throws IOException
+  static boolean validation(String[] argArray)
+  {
+    if (isValidFlightNumber(argArray[0]) && isValidDateAndTime(argArray[2],argArray[3])
+            && isValidDateAndTime(argArray[5],argArray[6]) && isValidSrcAndDestCode(argArray[1])
+            && isValidSrcAndDestCode(argArray[4]))
+    {
+      return true;
+    }
+    return false;
+  }
+
+  public static void main(String[] args) throws IOException, ParserException
   {
     if (args.length == 0)
     {
@@ -106,7 +131,6 @@ public class Project1 {
       usageMessage();
       return;
     }
-
 
     String firstArg = args[0];
     int argsLength = args.length;
@@ -117,9 +141,8 @@ public class Project1 {
     }
     else if(argsLength == 8 && !firstArg.equals("-print"))
     {
-      if(isValidFlightNumber(args[1]) && isValidDateAndTime(args[3],args[4])
-              && isValidDateAndTime(args[6],args[7]) && isValidSrcAndDestCode(args[2])
-              && isValidSrcAndDestCode(args[5]))
+      String argArray[] = Arrays.copyOfRange(args, 1, 8);
+      if(validation(argArray))
       {
         flight.setFlightNumber(Integer.parseInt(args[1]));
         flight.setSource(args[2]);
@@ -135,10 +158,9 @@ public class Project1 {
     }
     else if(argsLength == 9 && firstArg.equals("-print"))
     {
-      if(isValidFlightNumber(args[2]) && isValidDateAndTime(args[4],args[5])
-              && isValidDateAndTime(args[7],args[8])
-              && isValidSrcAndDestCode(args[3])
-              && isValidSrcAndDestCode(args[6]))
+      String argArray[] = Arrays.copyOfRange(args, 2, 9);
+
+      if(validation(argArray))
       {
         flight.setFlightNumber(Integer.parseInt(args[2]));
         flight.setSource(args[3]);
@@ -150,6 +172,59 @@ public class Project1 {
         Airline airline = new Airline(args[1]);
         airline.addFlight(flight);
         System.out.println(flight.toString());
+      }
+    }
+    else if(argsLength == 10 && firstArg.equals("-textFile"))
+    {
+      String argArray[] = Arrays.copyOfRange(args, 3, 10);
+      String fileName = args[1];
+      if(isValidFileName(fileName))
+      {
+        if(validation(argArray))
+        {
+          String directory = "./src/main/java/edu/pdx/cs410J/jfeng/AirlineData/%s";
+          String filePath = String.format(directory,fileName);
+
+          Airline airline = new Airline(args[2]);
+
+          TextParser textParser = new TextParser(filePath,airline);
+          airline = textParser.parse();
+          if(airline == null)
+          {
+            System.err.println("Error parsing airline text");
+            return;
+          }
+          flight.setFlightNumber(Integer.parseInt(args[3]));
+          flight.setSource(args[4]);
+          flight.setDepartDate(args[5]);
+          flight.setDepartTime(args[6]);;
+          flight.setDestination(args[7]);
+          flight.setArriveDate(args[8]);
+          flight.setArriveTime(args[9]);
+          airline.addFlight(flight);
+
+          TextDumper textDumper = new TextDumper(filePath);
+          textDumper.dump(airline);
+          System.out.println("Successfully added a flight to " + fileName);
+
+        }
+      }
+    }
+    else if(firstArg.equals("lol"))
+    {
+      Airline airline = new Airline("lol");
+      String filePath = "./src/main/java/edu/pdx/cs410J/jfeng/AirlineData/emptyTestParser.txt";
+      TextParser textParser = new TextParser(filePath,airline);
+      airline = textParser.parse();
+      ArrayList<Flight> flightArrayList = (ArrayList<Flight>) airline.getFlights();
+      for (int i = 0; i < flightArrayList.size(); i++)
+      {
+        System.out.println(airline.getName());
+        System.out.println(flightArrayList.get(i).getNumber());
+        System.out.println(flightArrayList.get(i).getSource());
+        System.out.println(flightArrayList.get(i).getDepartureString());
+        System.out.println(flightArrayList.get(i).getDestination());
+        System.out.println(flightArrayList.get(i).getArrivalString());
       }
     }
     else

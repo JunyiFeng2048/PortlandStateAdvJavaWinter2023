@@ -8,6 +8,7 @@ This is a README file!
             dest Three-letter code of arrival airport
             arrive Arrival date and time (24-hour time)
         options are (options may appear in any order):
+            -textFile file Where to read/write the airline info
             -print Prints a description of the new flight
             -README Prints a README for this project and exits
     *Date and time should be in the format: mm/dd/yyyy hh:mm

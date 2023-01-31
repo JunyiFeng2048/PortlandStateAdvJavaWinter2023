@@ -75,7 +75,8 @@ public class Student extends Human {
    * <code>Student</code>, and prints a description of the student to
    * standard out by invoking its <code>toString</code> method.
    */
-  public static void main(String[] args) {
+  public static void main(String[] args)
+  {
     System.err.println("Missing command line arguments");
   }
 }

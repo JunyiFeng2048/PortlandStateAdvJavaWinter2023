@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.jfeng;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,6 +18,14 @@ class StudentIT extends InvokeMainTestCase {
   void invokingMainWithNoArgumentsPrintsMissingArgumentsToStandardError() {
     InvokeMainTestCase.MainMethodResult result = invokeMain(Student.class);
     assertThat(result.getTextWrittenToStandardError(), containsString("Missing command line arguments"));
+  }
+
+  @Test
+  @Disabled
+  void  StudentSaysWhatIsExpected2()
+  {
+    MainMethodResult result = invokeMain(Student.class, "Dave", "male", "3.64,", "AI", "Java");
+    assertThat(result.getTextWrittenToStandardError(),containsString("Dave"));
   }
 
 }
