@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class Project1
 {
-  //@VisibleForTesting
+  @VisibleForTesting
   static boolean isValidDateAndTime(String date, String time)
   {
     String dateAndTime = date + " " + time;
@@ -100,15 +100,16 @@ public class Project1
   {
     System.out.println("\tusage: java -jar target/airline-2023.0.0.jar [options] <args>\n" +
             "\t\targs are (in this order):\n" +
-            "\t\t\tairline The name of the airline\n" +
-            "\t\t\tflightNumber The flight number\n" +
-            "\t\t\tsrc Three-letter code of departure airport\n" +
-            "\t\t\tdepart Departure date and time (24-hour time)\n" +
-            "\t\t\tdest Three-letter code of arrival airport\n" +
-            "\t\t\tarrive Arrival date and time (24-hour time)\n" +
+            "\t\t\tairline \tThe name of the airline\n" +
+            "\t\t\tflightNumber \tThe flight number\n" +
+            "\t\t\tsrc \tThree-letter code of departure airport\n" +
+            "\t\t\tdepart \tDeparture date and time (24-hour time)\n" +
+            "\t\t\tdest \tThree-letter code of arrival airport\n" +
+            "\t\t\tarrive \tArrival date and time (24-hour time)\n" +
             "\t\toptions are (options may appear in any order):\n" +
-            "\t\t\t-print Prints a description of the new flight\n" +
-            "\t\t\t-README Prints a README for this project and exits\n" +
+            "\t\t\t-textFile file \tWhere to read/write the airline info\n" +
+            "\t\t\t-print \tPrints a description of the new flight\n" +
+            "\t\t\t-README \tPrints a README for this project and exits\n" +
             "\t*Date and time should be in the format: mm/dd/yyyy hh:mm");
   }
 
@@ -131,10 +132,9 @@ public class Project1
       usageMessage();
       return;
     }
-
+    String directory = "./src/main/java/edu/pdx/cs410J/jfeng/AirlineData/%s";
     String firstArg = args[0];
     int argsLength = args.length;
-    Flight flight = new Flight();
     if(firstArg.equals("-README"))
     {
       getREADME();
@@ -144,13 +144,8 @@ public class Project1
       String argArray[] = Arrays.copyOfRange(args, 1, 8);
       if(validation(argArray))
       {
-        flight.setFlightNumber(Integer.parseInt(args[1]));
-        flight.setSource(args[2]);
-        flight.setDepartDate(args[3]);
-        flight.setDepartTime(args[4]);
-        flight.setDestination(args[5]);
-        flight.setArriveDate(args[6]);
-        flight.setArriveTime(args[7]);
+        Flight flight = new Flight(Integer.parseInt(args[1]),args[2],
+                args[3],args[4],args[5],args[6],args[7]);
         Airline airline = new Airline(args[0]);
         airline.addFlight(flight);
         System.out.println("Successfully added a flight to " + args[0]);
@@ -162,13 +157,8 @@ public class Project1
 
       if(validation(argArray))
       {
-        flight.setFlightNumber(Integer.parseInt(args[2]));
-        flight.setSource(args[3]);
-        flight.setDepartDate(args[4]);
-        flight.setDepartTime(args[5]);;
-        flight.setDestination(args[6]);
-        flight.setArriveDate(args[7]);
-        flight.setArriveTime(args[8]);
+        Flight flight = new Flight(Integer.parseInt(args[2]),
+                args[3],args[4],args[5],args[6],args[7],args[8]);
         Airline airline = new Airline(args[1]);
         airline.addFlight(flight);
         System.out.println(flight.toString());
@@ -182,7 +172,6 @@ public class Project1
       {
         if(validation(argArray))
         {
-          String directory = "./src/main/java/edu/pdx/cs410J/jfeng/AirlineData/%s";
           String filePath = String.format(directory,fileName);
 
           Airline airline = new Airline(args[2]);
@@ -194,39 +183,75 @@ public class Project1
             System.err.println("Error parsing airline text");
             return;
           }
-          flight.setFlightNumber(Integer.parseInt(args[3]));
-          flight.setSource(args[4]);
-          flight.setDepartDate(args[5]);
-          flight.setDepartTime(args[6]);;
-          flight.setDestination(args[7]);
-          flight.setArriveDate(args[8]);
-          flight.setArriveTime(args[9]);
+          Flight flight = new Flight(Integer.parseInt(args[3]),args[4],
+                  args[5],args[6],args[7],args[8],args[9]);
           airline.addFlight(flight);
-
           TextDumper textDumper = new TextDumper(filePath);
           textDumper.dump(airline);
           System.out.println("Successfully added a flight to " + fileName);
+        }
+      }
+    }
+    else if(argsLength == 11 && (firstArg.equals("-textFile") && args[2].equals("-print")))
+    {
+      String argArray[] = Arrays.copyOfRange(args, 4, 11);
+      String fileName = args[1];
+      if(isValidFileName(fileName))
+      {
+        if(validation(argArray))
+        {
+          String filePath = String.format(directory,fileName);
+
+          Airline airline = new Airline(args[3]);
+
+          TextParser textParser = new TextParser(filePath,airline);
+          airline = textParser.parse();
+          if(airline == null)
+          {
+            System.err.println("Error parsing airline text");
+            return;
+          }
+          Flight flight = new Flight(Integer.parseInt(args[4]),args[5],
+                  args[6],args[7],args[8],args[9],args[10]);
+          airline.addFlight(flight);
+          TextDumper textDumper = new TextDumper(filePath);
+          textDumper.dump(airline);
+          System.out.println("Successfully added a flight to " + fileName);
+          System.out.println(flight.toString());
+        }
+      }
+    }
+    else if(argsLength == 11 && (firstArg.equals("-print") && args[1].equals("-textFile")))
+    {
+      String argArray[] = Arrays.copyOfRange(args, 4, 11);
+      String fileName = args[2];
+      if(isValidFileName(fileName))
+      {
+        if(validation(argArray))
+        {
+          String filePath = String.format(directory,fileName);
+
+          Airline airline = new Airline(args[3]);
+
+          TextParser textParser = new TextParser(filePath,airline);
+          airline = textParser.parse();
+          if(airline == null)
+          {
+            System.err.println("Error parsing airline text");
+            return;
+          }
+          Flight flight = new Flight(Integer.parseInt(args[4]),args[5],
+                  args[6],args[7],args[8],args[9],args[10]);
+          airline.addFlight(flight);
+          TextDumper textDumper = new TextDumper(filePath);
+          textDumper.dump(airline);
+          System.out.println("Successfully added a flight to " + fileName);
+          System.out.println(flight.toString());
 
         }
       }
     }
-    else if(firstArg.equals("lol"))
-    {
-      Airline airline = new Airline("lol");
-      String filePath = "./src/main/java/edu/pdx/cs410J/jfeng/AirlineData/emptyTestParser.txt";
-      TextParser textParser = new TextParser(filePath,airline);
-      airline = textParser.parse();
-      ArrayList<Flight> flightArrayList = (ArrayList<Flight>) airline.getFlights();
-      for (int i = 0; i < flightArrayList.size(); i++)
-      {
-        System.out.println(airline.getName());
-        System.out.println(flightArrayList.get(i).getNumber());
-        System.out.println(flightArrayList.get(i).getSource());
-        System.out.println(flightArrayList.get(i).getDepartureString());
-        System.out.println(flightArrayList.get(i).getDestination());
-        System.out.println(flightArrayList.get(i).getArrivalString());
-      }
-    }
+
     else
     {
       System.err.println("Invalid or missing command line argument. See '-README'");

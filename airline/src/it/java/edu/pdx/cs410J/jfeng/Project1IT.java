@@ -4,10 +4,7 @@ import edu.pdx.cs410J.InvokeMainTestCase;
 import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -214,6 +211,8 @@ class Project1IT extends InvokeMainTestCase {
     {
         MainMethodResult result = invokeMain("-textFile", "IT.txt", "CS410J Air Express", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/22/2023", "1:03");
         assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight to IT.txt"));
+        File deleteFile = new File("./src/main/java/edu/pdx/cs410J/jfeng/AirlineData/IT.txt");
+        deleteFile.delete();
     }
     @Test
     void testErrorParsing()
@@ -222,5 +221,21 @@ class Project1IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid file name, must just the file name and end with '.txt'"));
     }
 
+    @Test
+    void testPrintAndTextFileCommand()
+    {
+        MainMethodResult result = invokeMain("-textFile", "IT.txt", "-print", "CS410J Air Express", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/22/2023", "1:03");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight to IT.txt"));
+        File deleteFile = new File("./src/main/java/edu/pdx/cs410J/jfeng/AirlineData/IT.txt");
+        deleteFile.delete();
+    }
 
+    @Test
+    void testTextFileAndPrintCommand()
+    {
+        MainMethodResult result = invokeMain("-print","-textFile", "IT.txt", "CS410J Air Express", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/22/2023", "1:03");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight to IT.txt"));
+        File deleteFile = new File("./src/main/java/edu/pdx/cs410J/jfeng/AirlineData/IT.txt");
+        deleteFile.delete();
+    }
 }
