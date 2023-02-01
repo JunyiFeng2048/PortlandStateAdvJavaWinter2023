@@ -217,13 +217,21 @@ class Project2IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), containsString("Not a directory"));
     }
 
+
+    @Test
+    void testValidAbsoluteTextFileCommand()
+    {
+        MainMethodResult result = invokeMain("-textFile", "/Users/junyi/IdeaProjects/PortlandStateJavaWinter2023/airline/src/testData/IT2.txt", "CS410J Air Express", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/22/2023", "1:19");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight to /Users/junyi/IdeaProjects/PortlandStateJavaWinter2023/airline/src/testData/IT2.txt"));
+    }
+
     @Test
     void testCreateTextFileCommand()
     {
         MainMethodResult result = invokeMain("-textFile", "./src/testData/IT2.txt", "CS410J Air Express", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/22/2023", "1:03");
         assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight to ./src/testData/IT2.txt"));
     }
-
+//
     @Test
     void testPrintAndTextFileCommand()
     {

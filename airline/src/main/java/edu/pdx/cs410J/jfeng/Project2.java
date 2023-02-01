@@ -69,7 +69,7 @@ public class Project2
   static boolean isValidFileNameAndPath(String filePath)
   {
     String fileType = ".txt";
-    if(!fileType.equals(filePath.substring(filePath.length() - 4)))
+    if(filePath.length() < 4 || !fileType.equals(filePath.substring(filePath.length() - 4)))
     {
       System.err.println("Invalid file name, must end with '.txt'");
       return false;
@@ -81,7 +81,7 @@ public class Project2
       dir =  dir + directory[i] + "/";
     }
     Path path = Paths.get(dir);
-    if(!Files.exists(path))
+    if(!Files.isDirectory(path))
     {
       System.out.println(path);
       System.err.println("Not a directory");
@@ -120,7 +120,7 @@ public class Project2
             "\t\t\tdest \tThree-letter code of arrival airport\n" +
             "\t\t\tarrive \tArrival date and time (24-hour time)\n" +
             "\t\toptions are (options may appear in any order):\n" +
-            "\t\t\t-textFile file.txt(./folder/file.txt) \tWhere to read/write the airline info\n" +
+            "\t\t\t-textFile file.txt(./folder/file.txt or an absolute path) \tWhere to read/write the airline info\n" +
             "\t\t\t-print \tPrints a description of the new flight\n" +
             "\t\t\t-README \tPrints a README for this project and exits\n" +
             "\t*Date and time should be in the format: mm/dd/yyyy hh:mm");
