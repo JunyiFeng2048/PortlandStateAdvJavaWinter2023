@@ -75,7 +75,7 @@ class Project1Test {
     @Test
     void checkIsValidFlightNumberMethod2()
     {
-        String flightNumber = "9999";
+        String flightNumber = "99999";
         Project1 project1 = new Project1();
         boolean result = project1.isValidFlightNumber(flightNumber);
         assertFalse(result);

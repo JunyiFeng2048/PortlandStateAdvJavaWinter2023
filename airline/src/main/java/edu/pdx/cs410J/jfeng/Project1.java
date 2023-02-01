@@ -4,11 +4,12 @@ import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.ParserException;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 /**
  * The main class for the CS410J airline Project
@@ -34,7 +35,7 @@ public class Project1
     try
     {
       int fn = Integer.parseInt(flightNumber);
-      if(fn < 0 || fn > 999)
+      if(fn < 0 || fn > 9999)
       {
         System.err.println("Invalid Flight Number");
         return false;
@@ -65,17 +66,29 @@ public class Project1
     return true;
   }
 
-  static boolean isValidFileName(String fileName)
+  static boolean isValidFileNameAndPath(String filePath)
   {
     String fileType = ".txt";
-
-    if(fileType.equals(fileName.substring(fileName.length() - 4)) && !fileName.contains("/"))
+    if(!fileType.equals(filePath.substring(filePath.length() - 4)))
     {
-      return true;
+      System.err.println("Invalid file name, must end with '.txt'");
+      return false;
     }
-    System.err.println("Invalid file name, must just the file name and end with '.txt'");
-    return false;
+    String[] directory = filePath.split("/");
+    String dir = "";
+    for(int i=0; i<directory.length-1; i++)
+    {
+      dir =  dir + directory[i] + "/";
+    }
+    Path path = Paths.get(dir);
+    if(!Files.exists(path))
+    {
+      System.out.println(path);
+      System.err.println("Not a directory");
+      return false;
+    }
 
+    return true;
   }
 
   static boolean getREADME()
@@ -107,7 +120,7 @@ public class Project1
             "\t\t\tdest \tThree-letter code of arrival airport\n" +
             "\t\t\tarrive \tArrival date and time (24-hour time)\n" +
             "\t\toptions are (options may appear in any order):\n" +
-            "\t\t\t-textFile file \tWhere to read/write the airline info\n" +
+            "\t\t\t-textFile file.txt(./folder/file.txt) \tWhere to read/write the airline info\n" +
             "\t\t\t-print \tPrints a description of the new flight\n" +
             "\t\t\t-README \tPrints a README for this project and exits\n" +
             "\t*Date and time should be in the format: mm/dd/yyyy hh:mm");
@@ -132,7 +145,7 @@ public class Project1
       usageMessage();
       return;
     }
-    String directory = "./src/main/java/edu/pdx/cs410J/jfeng/AirlineData/%s";
+
     String firstArg = args[0];
     int argsLength = args.length;
     if(firstArg.equals("-README"))
@@ -166,16 +179,14 @@ public class Project1
     }
     else if(argsLength == 10 && firstArg.equals("-textFile"))
     {
+
       String argArray[] = Arrays.copyOfRange(args, 3, 10);
-      String fileName = args[1];
-      if(isValidFileName(fileName))
+      String filePath = args[1];
+      if(isValidFileNameAndPath(filePath))
       {
         if(validation(argArray))
         {
-          String filePath = String.format(directory,fileName);
-
           Airline airline = new Airline(args[2]);
-
           TextParser textParser = new TextParser(filePath,airline);
           airline = textParser.parse();
           if(airline == null)
@@ -188,19 +199,18 @@ public class Project1
           airline.addFlight(flight);
           TextDumper textDumper = new TextDumper(filePath);
           textDumper.dump(airline);
-          System.out.println("Successfully added a flight to " + fileName);
+          System.out.println("Successfully added a flight to " + filePath);
         }
       }
     }
     else if(argsLength == 11 && (firstArg.equals("-textFile") && args[2].equals("-print")))
     {
       String argArray[] = Arrays.copyOfRange(args, 4, 11);
-      String fileName = args[1];
-      if(isValidFileName(fileName))
+      String filePath = args[1];
+      if(isValidFileNameAndPath(filePath))
       {
         if(validation(argArray))
         {
-          String filePath = String.format(directory,fileName);
 
           Airline airline = new Airline(args[3]);
 
@@ -216,7 +226,7 @@ public class Project1
           airline.addFlight(flight);
           TextDumper textDumper = new TextDumper(filePath);
           textDumper.dump(airline);
-          System.out.println("Successfully added a flight to " + fileName);
+          System.out.println("Successfully added a flight to " + filePath);
           System.out.println(flight.toString());
         }
       }
@@ -224,15 +234,12 @@ public class Project1
     else if(argsLength == 11 && (firstArg.equals("-print") && args[1].equals("-textFile")))
     {
       String argArray[] = Arrays.copyOfRange(args, 4, 11);
-      String fileName = args[2];
-      if(isValidFileName(fileName))
+      String filePath = args[2];
+      if(isValidFileNameAndPath(filePath))
       {
         if(validation(argArray))
         {
-          String filePath = String.format(directory,fileName);
-
           Airline airline = new Airline(args[3]);
-
           TextParser textParser = new TextParser(filePath,airline);
           airline = textParser.parse();
           if(airline == null)
@@ -245,9 +252,8 @@ public class Project1
           airline.addFlight(flight);
           TextDumper textDumper = new TextDumper(filePath);
           textDumper.dump(airline);
-          System.out.println("Successfully added a flight to " + fileName);
+          System.out.println("Successfully added a flight to " + filePath);
           System.out.println(flight.toString());
-
         }
       }
     }

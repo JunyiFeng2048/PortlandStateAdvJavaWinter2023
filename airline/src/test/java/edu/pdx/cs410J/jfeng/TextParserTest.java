@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TextParserTest
 {
-    private String  directory = "./src/main/java/edu/pdx/cs410J/jfeng/testData/%s";
+    private String  directory = "./src/testData/%s";
 
   /*
   @Test
@@ -84,6 +84,16 @@ public class TextParserTest
 
     @Test
     void parseAnMalformedFile() throws ParserException
+    {
+        String filePath = String.format(directory,"malformedTestParser.txt");
+        Airline airline = new Airline("Test");
+        TextParser textParser = new TextParser(filePath,airline);
+        airline = textParser.parse();
+        assertNull(airline);
+    }
+
+    @Test
+    void parseAnMalformedDateAndTimeFile() throws ParserException
     {
         String filePath = String.format(directory,"malformedTestParser.txt");
         Airline airline = new Airline("Test");

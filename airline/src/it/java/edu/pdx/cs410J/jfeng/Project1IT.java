@@ -1,14 +1,13 @@
 package edu.pdx.cs410J.jfeng;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
-import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 /**
  * An integration test for the {@link Project1} main class.
@@ -196,46 +195,46 @@ class Project1IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardOut(), containsString("departs"));
         assertThat(result.getTextWrittenToStandardOut(), containsString("at"));
         assertThat(result.getTextWrittenToStandardOut(), containsString("arrives"));
-
     }
 
     @Test
     void testInvalidFileCommand()
     {
         MainMethodResult result = invokeMain("-textFile", "IT.pdf", "CS410J Air Express", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/22/2023", "1:03");
-        assertThat(result.getTextWrittenToStandardError(), containsString("Invalid file name, must just the file name and end with '.txt'"));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Invalid file name, must end with '.txt'"));
     }
 
     @Test
     void testValidTextFileCommand()
     {
-        MainMethodResult result = invokeMain("-textFile", "IT.txt", "CS410J Air Express", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/22/2023", "1:03");
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight to IT.txt"));
-        File deleteFile = new File("./src/main/java/edu/pdx/cs410J/jfeng/AirlineData/IT.txt");
-        deleteFile.delete();
+        MainMethodResult result = invokeMain("-textFile", "./src/testData/IT.txt", "CS410J Air Express", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/22/2023", "1:03");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight to ./src/testData/IT.txt"));
     }
     @Test
     void testErrorParsing()
     {
-        MainMethodResult result = invokeMain("-textFile", "./testFile/IT.txt", "Test", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/22/2023", "1:03");
-        assertThat(result.getTextWrittenToStandardError(), containsString("Invalid file name, must just the file name and end with '.txt'"));
+        MainMethodResult result = invokeMain("-textFile", "./NotDir/IT.txt", "Test", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/22/2023", "1:03");
+        assertThat(result.getTextWrittenToStandardError(), containsString("Not a directory"));
+    }
+
+    @Test
+    void testCreateTextFileCommand()
+    {
+        MainMethodResult result = invokeMain("-textFile", "./src/testData/IT2.txt", "CS410J Air Express", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/22/2023", "1:03");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight to ./src/testData/IT2.txt"));
     }
 
     @Test
     void testPrintAndTextFileCommand()
     {
-        MainMethodResult result = invokeMain("-textFile", "IT.txt", "-print", "CS410J Air Express", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/22/2023", "1:03");
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight to IT.txt"));
-        File deleteFile = new File("./src/main/java/edu/pdx/cs410J/jfeng/AirlineData/IT.txt");
-        deleteFile.delete();
+        MainMethodResult result = invokeMain("-textFile", "./src/testData/IT2.txt", "-print", "CS410J Air Express", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/22/2023", "1:03");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight to ./src/testData/IT2.txt"));
     }
 
     @Test
     void testTextFileAndPrintCommand()
     {
-        MainMethodResult result = invokeMain("-print","-textFile", "IT.txt", "CS410J Air Express", "666", "ABC", "3/15/2023", "10:39", "DEF", "03/22/2023", "1:03");
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight to IT.txt"));
-        File deleteFile = new File("./src/main/java/edu/pdx/cs410J/jfeng/AirlineData/IT.txt");
-        deleteFile.delete();
+        MainMethodResult result = invokeMain("-print","-textFile", "./src/testData/IT2.txt", "CS410J Air Express", "888", "ABC", "3/15/2023", "10:39", "DEF", "03/22/2023", "1:03");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight to ./src/testData/IT2.txt"));
     }
 }

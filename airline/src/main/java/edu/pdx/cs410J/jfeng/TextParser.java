@@ -22,14 +22,12 @@ public class TextParser implements AirlineParser<Airline>
 
   }
 
-
-
   public boolean checkValidFlightNumberInFile(String flightNumber)
   {
     try
     {
       int fn = Integer.parseInt(flightNumber);
-      if(fn < 0 || fn > 999)
+      if(fn < 0 || fn > 9999)
       {
         System.err.println("Invalid Flight Number in this file. Fix it first");
         return false;
@@ -43,29 +41,18 @@ public class TextParser implements AirlineParser<Airline>
     return true;
   }
 
-  public boolean checkValidDateInFile(String date)
+  public boolean checkValidDateAndTimeInFile(String dateAndTime)
   {
     try {
-      new SimpleDateFormat("MM/dd/yyyy").parse(date);
+      new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(dateAndTime);
     } catch (ParseException e)
     {
-      System.err.println("Invalid Date in this file. Fix it first");
+      System.err.println("Invalid Date and Time in this file. Fix it first");
       return false;
     }
     return true;
   }
 
-  public boolean checkValidTimeInFile(String time)
-  {
-    try {
-      new SimpleDateFormat("HH:mm").parse(time);
-    } catch (ParseException e)
-    {
-      System.err.println("Invalid Time in this file. Fix it first");
-      return false;
-    }
-    return true;
-  }
 
   public boolean checkValidSrcAndDestCodeInFile(String str)
   {
@@ -89,19 +76,12 @@ public class TextParser implements AirlineParser<Airline>
     String delimiter = " ";
     String[] dateAndTime;
     dateAndTime = temp.split(delimiter);
-    if(dateAndTime.length != 4)
-    {
-      System.err.println("Invalid Date and Time in this file. Fix it first");
-      return null;
-    }
 
     if(checkValidFlightNumberInFile(fileDataArray[1])
             && checkValidSrcAndDestCodeInFile(fileDataArray[2])
-            && checkValidDateInFile(dateAndTime[0])
-            && checkValidTimeInFile(dateAndTime[1])
+            && checkValidDateAndTimeInFile(fileDataArray[3])
             && checkValidSrcAndDestCodeInFile(fileDataArray[4])
-            && checkValidDateInFile(dateAndTime[2])
-            && checkValidTimeInFile(dateAndTime[3]))
+            && checkValidDateAndTimeInFile(fileDataArray[5]))
     {
       flight.setFlightNumber(Integer.parseInt(fileDataArray[1]));
       flight.setSource(fileDataArray[2]);
@@ -118,23 +98,6 @@ public class TextParser implements AirlineParser<Airline>
   @Override
   public Airline parse() throws ParserException
   {
-    /*
-    try (
-            BufferedReader br = new BufferedReader(this.reader)
-    ) {
-
-      String airlineName = br.readLine();
-
-      if (airlineName == null) {
-        throw new ParserException("Missing airline name");
-      }
-
-      return new Airline(airlineName);
-
-    } catch (IOException e) {
-      throw new ParserException("While parsing airline text", e);
-    }
-    */
     InputStream inputStream;
     try {
       inputStream = new FileInputStream(filePath);
@@ -145,7 +108,6 @@ public class TextParser implements AirlineParser<Airline>
     try (
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
     ) {
-
       String[] fileDataArray = new String[6];
       Flight flight;
       while(bufferedReader.ready())

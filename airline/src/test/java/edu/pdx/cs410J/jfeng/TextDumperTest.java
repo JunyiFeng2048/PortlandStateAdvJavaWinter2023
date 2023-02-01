@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TextDumperTest
 {
-    private String  directory = "./src/main/java/edu/pdx/cs410J/jfeng/testData/%s";
+    private String  directory = "./src/testData/%s";
 
   /*
   @Test
