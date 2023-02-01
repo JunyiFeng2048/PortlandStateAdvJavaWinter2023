@@ -17,12 +17,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * from <code>Project1IT</code> which is an integration test (and can capture data
  * written to {@link System#out} and the like.
  */
-class Project1Test {
+class Project2Test {
 
     @Test
     void readmeCanBeReadAsResource() throws IOException {
         try (
-                InputStream readme = Project1.class.getResourceAsStream("README.txt")
+                InputStream readme = Project2.class.getResourceAsStream("README.txt")
         ) {
             assertThat(readme, not(nullValue()));
             BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
@@ -37,8 +37,8 @@ class Project1Test {
         String date = "1/03/1998/09";
         String time = "11:03";
 
-        Project1 project1 = new Project1();
-        boolean result = project1.isValidDateAndTime(date, time);
+        Project2 project2 = new Project2();
+        boolean result = project2.isValidDateAndTime(date, time);
         assertFalse(result);
     }
     @Test
@@ -46,8 +46,8 @@ class Project1Test {
     {
         String date = "11/03";
         String time = "11:03";
-        Project1 project1 = new Project1();
-        boolean result = project1.isValidDateAndTime(date, time);
+        Project2 project2 = new Project2();
+        boolean result = project2.isValidDateAndTime(date, time);
         assertFalse(result);
     }
 
@@ -57,8 +57,8 @@ class Project1Test {
         String date = "not date";
         String time = "11:03";
 
-        Project1 project1 = new Project1();
-        boolean result = project1.isValidDateAndTime(date, time);
+        Project2 project2 = new Project2();
+        boolean result = project2.isValidDateAndTime(date, time);
         assertFalse(result);
     }
 
@@ -67,8 +67,8 @@ class Project1Test {
     void checkIsValidFlightNumberMethod1()
     {
         String flightNumber = "666";
-        Project1 project1 = new Project1();
-        boolean result = project1.isValidFlightNumber(flightNumber);
+        Project2 project2 = new Project2();
+        boolean result = project2.isValidFlightNumber(flightNumber);
         assertTrue(result);
     }
 
@@ -76,8 +76,8 @@ class Project1Test {
     void checkIsValidFlightNumberMethod2()
     {
         String flightNumber = "99999";
-        Project1 project1 = new Project1();
-        boolean result = project1.isValidFlightNumber(flightNumber);
+        Project2 project2 = new Project2();
+        boolean result = project2.isValidFlightNumber(flightNumber);
         assertFalse(result);
     }
 
@@ -85,16 +85,16 @@ class Project1Test {
     void checkIsValidFlightNumberMethod3()
     {
         String flightNumber = "-666";
-        Project1 project1 = new Project1();
-        boolean result = project1.isValidFlightNumber(flightNumber);
+        Project2 project2 = new Project2();
+        boolean result = project2.isValidFlightNumber(flightNumber);
         assertFalse(result);
     }
     @Test
     void checkIsValidFlightNumberMethod4()
     {
         String flightNumber = "abc";
-        Project1 project1 = new Project1();
-        boolean result = project1.isValidFlightNumber(flightNumber);
+        Project2 project2 = new Project2();
+        boolean result = project2.isValidFlightNumber(flightNumber);
         assertFalse(result);
     }
 
@@ -102,8 +102,8 @@ class Project1Test {
     void checkIsValidSrcAndDestCodeMethod1()
     {
         String testSrcOrDest = "abc";
-        Project1 project1 = new Project1();
-        boolean result = project1.isValidSrcAndDestCode(testSrcOrDest);
+        Project2 project2 = new Project2();
+        boolean result = project2.isValidSrcAndDestCode(testSrcOrDest);
         assertTrue(result);
     }
 
@@ -111,16 +111,16 @@ class Project1Test {
     void checkIsValidSrcAndDestCodeMethod2()
     {
         String testSrcOrDest = "ABCD";
-        Project1 project1 = new Project1();
-        boolean result = project1.isValidSrcAndDestCode(testSrcOrDest);
+        Project2 project2 = new Project2();
+        boolean result = project2.isValidSrcAndDestCode(testSrcOrDest);
         assertFalse(result);
     }
 
     @Test
     void checkGetREAMDE()
     {
-        Project1 project1 = new Project1();
-        assertTrue(project1.getREADME());
+        Project2 project2 = new Project2();
+        assertTrue(project2.getREADME());
     }
 
 }

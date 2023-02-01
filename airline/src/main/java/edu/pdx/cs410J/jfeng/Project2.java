@@ -14,7 +14,7 @@ import java.util.Arrays;
 /**
  * The main class for the CS410J airline Project
  */
-public class Project1
+public class Project2
 {
   @VisibleForTesting
   static boolean isValidDateAndTime(String date, String time)
@@ -94,7 +94,7 @@ public class Project1
   static boolean getREADME()
   {
     try (
-            InputStream readme = Project1.class.getResourceAsStream("README.txt")
+            InputStream readme = Project2.class.getResourceAsStream("README.txt")
     )
     {
       BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
