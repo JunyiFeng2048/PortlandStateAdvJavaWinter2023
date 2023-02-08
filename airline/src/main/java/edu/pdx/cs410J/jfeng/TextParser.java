@@ -76,10 +76,11 @@ public class TextParser implements AirlineParser<Airline>
       Date date1 = sdf.parse(departure);
       Date date2 = sdf.parse(arrival);
       long time_difference = date2.getTime() - date1.getTime();
-      long second = (time_difference / 1000) % 60;
       long minute = (time_difference / (1000 * 60)) % 60;
       long hour = (time_difference / (1000 * 60 * 60)) % 24;
-      String time = String.format("%02d:%02d:%02d", hour, minute, second);
+      long day = (time_difference / (1000*60*60*24)) % 365;
+      long year = (time_difference / (1000l*60*60*24*365));
+      String time = String.format("%02dy %02dd %02dh %02dm ", year, day, hour, minute);
       return time;
     }
     catch (ParseException e) {

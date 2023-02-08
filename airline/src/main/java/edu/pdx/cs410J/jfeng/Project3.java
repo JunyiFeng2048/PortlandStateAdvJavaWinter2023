@@ -130,10 +130,11 @@ public class Project3
       Date date1 = sdf.parse(departure);
       Date date2 = sdf.parse(arrival);
       long time_difference = date2.getTime() - date1.getTime();
-      long second = (time_difference / 1000) % 60;
       long minute = (time_difference / (1000 * 60)) % 60;
       long hour = (time_difference / (1000 * 60 * 60)) % 24;
-      String time = String.format("%02d:%02d:%02d", hour, minute, second);
+      long day = (time_difference / (1000*60*60*24)) % 365;
+      long year = (time_difference / (1000l*60*60*24*365));
+      String time = String.format("%02dy %02dd %02dh %02dm ", year, day, hour, minute);
       return time;
     }
     catch (ParseException e) {
@@ -409,10 +410,40 @@ public class Project3
           airline.sort();/////
           textDumper.dump(airline);
           System.out.println("Successfully added a flight to " + filePath);
-          //System.out.println(flight.toString());
           PrettyPrinter prettyPrinter = new PrettyPrinter(filePath);
           prettyPrinter.print(airline);
-
+        }
+      }
+    }
+    else if (argsLength == 14 && ((firstArg.equals("-pretty") && args[1].equals("-print") && args[2].equals("textFile"))
+            || ((firstArg.equals("-print") && args[1].equals("-pretty") && args[2].equals("textFile")))))
+    {
+      String argArray[] = Arrays.copyOfRange(args, 5, 14);
+      String filePath = args[3];
+      if (isValidFileNameAndPath(filePath))
+      {
+        if (validation(argArray))
+        {
+          Airline airline = new Airline(args[4]);
+          TextParser textParser = new TextParser(filePath, airline);
+          airline = textParser.parse();
+          if (airline == null)
+          {
+            System.err.println("Error parsing airline text");
+            return;
+          }
+          Flight flight = new Flight(Integer.parseInt(args[5]), args[6],
+                  args[7], args[8], args[10], args[11], args[12]);
+          flight.setDepartPeriod(args[9]);
+          flight.setArrivePeriod(args[13]);
+          flight.setDuration(calDuration(flight.getDepartureString(), flight.getArrivalString()));
+          airline.addFlight(flight);
+          TextDumper textDumper = new TextDumper(filePath);
+          airline.sort();/////
+          textDumper.dump(airline);
+          System.out.println("Successfully added a flight to " + filePath);
+          PrettyPrinter prettyPrinter = new PrettyPrinter(filePath);
+          prettyPrinter.print(airline);
         }
       }
     }

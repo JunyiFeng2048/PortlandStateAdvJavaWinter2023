@@ -8,6 +8,7 @@ This is a README file!
             dest    Three-letter code of arrival airport
             arrive  Arrival date and time (24-hour time)
         options are (options may appear in any order):
+            -pretty file.txt    Pretty print the airline’s flights to a text file or standard out (file -)
             -textFile file.txt(./folder/file.txt or an absolute path)  Where to read/write the airline info
             -print      Prints a description of the new flight
             -README     Prints a README for this project and exits
