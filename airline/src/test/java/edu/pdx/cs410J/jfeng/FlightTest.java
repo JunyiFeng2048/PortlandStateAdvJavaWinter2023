@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the {@link Flight} class.
@@ -173,6 +173,48 @@ public class FlightTest {
     assertThat(flight.setDepartTime(arriveTime),  containsString("Invalid Time"));
   }
 
+  @Test
+  void testGetDepartureStringWithPM()
+  {
+
+    String DepartureDate = "3/15/2023";
+    String DepartureTime = "10:49";
+    Flight flight = new Flight(666, "ABC", DepartureDate, DepartureTime,"EGF", "3/15/2023", "11:03");
+    flight.setDepartPeriod("pm");
+    assertThat(flight.getDepartureString(), containsString("3/15/2023 10:49 PM"));
+  }
+
+  @Test
+  void testGetDepartureStringWithoutPM()
+  {
+
+    String DepartureDate = "3/15/2023";
+    String DepartureTime = "10:49";
+    Flight flight = new Flight(666, "ABC", DepartureDate, DepartureTime,"EGF", "3/15/2023", "11:03");
+    assertThat(flight.getDepartureString(), containsString("3/15/2023 10:49"));
+  }
+
+  @Test
+  void testGetArrivalStringWithPM()
+  {
+
+    String ArrivalDate = "3/15/2023";
+    String ArrivalTime = "11:03";
+    Flight flight = new Flight(666, "ABC", "3/15/2023", "10:49","EGF", ArrivalDate, ArrivalTime);
+    flight.setArrivePeriod("pm");
+    assertThat(flight.getArrivalString(), containsString("3/15/2023 11:03 PM"));
+  }
+
+
+  @Test
+  void testGetArrivalWithoutPM()
+  {
+
+    String ArrivalDate = "3/15/2023";
+    String ArrivalTime = "11:03";
+    Flight flight = new Flight(666, "ABC", "3/15/2023", "10:49","EGF", ArrivalDate, ArrivalTime);
+    assertThat(flight.getArrivalString(), containsString("3/15/2023 11:03"));
+  }
 
 
 }

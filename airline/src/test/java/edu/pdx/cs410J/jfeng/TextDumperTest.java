@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TextDumperTest
 {
-    private String  directory = "./src/testData/%s";
 
   /*
   @Test
@@ -47,54 +46,70 @@ public class TextDumperTest
 
     @Test
     void createNewFileAndDumpData() throws IOException, ParserException {
-        String filePath = String.format(directory,"TestDumper1.txt");
+        String filePath = String.format("Test.txt");
         Airline airline = new Airline("Test");
         Flight flight = new Flight(666, "ABC", "4/20/2013", "11:25", "EGF", "03/2/2023", "1:03");
+        flight.setDepartPeriod("am");
+        flight.setArrivePeriod("pm");
         airline.addFlight(flight);
         TextDumper textDumper = new TextDumper(filePath);
         textDumper.dump(airline);
         TextParser textParser = new TextParser(filePath,airline);
         Airline airlineParsed = textParser.parse();
         assertThat(airline.toString(), containsString(airlineParsed.toString()));
+        File deleteFile = new File("Test.txt");
+        deleteFile.delete();
     }
 
     @Test
     void dumpDataToEmptyFile() throws IOException, ParserException {
-        String filePath = String.format(directory,"emptyTestDumper.txt");
+        String filePath = String.format("Test.txt");
         Airline airline = new Airline("Test");
         Flight flight = new Flight(666, "ABC", "4/20/2013", "11:25", "EGF", "03/2/2023", "1:03");
+        flight.setDepartPeriod("am");
+        flight.setArrivePeriod("pm");
         airline.addFlight(flight);
         TextDumper textDumper = new TextDumper(filePath);
         textDumper.dump(airline);
         TextParser textParser = new TextParser(filePath,airline);
         Airline airlineParsed = textParser.parse();
         assertThat(airline.toString(), containsString(airlineParsed.toString()));
+        File deleteFile = new File("Test.txt");
+        deleteFile.delete();
     }
 
     @Test
     void dumpDataToNotEmptyFile() throws IOException, ParserException {
-        String filePath = String.format(directory,"testDumper1.txt");
+        String filePath = String.format("Test.txt");
         Airline airline = new Airline("Test");
         Flight flight = new Flight(666, "ABC", "4/20/2013", "11:25", "EGF", "03/2/2023", "1:03");
+        flight.setDepartPeriod("am");
+        flight.setArrivePeriod("pm");
         airline.addFlight(flight);
         TextDumper textDumper = new TextDumper(filePath);
         textDumper.dump(airline);
         TextParser textParser = new TextParser(filePath,airline);
         Airline airlineParsed = textParser.parse();
         assertThat(airline.toString(), containsString(airlineParsed.toString()));
+        File deleteFile = new File("Test.txt");
+        deleteFile.delete();
     }
 
     @Test
     void dumpMalformedData() throws IOException, ParserException {
-        String filePath = String.format(directory,"testDumper2.txt");
+        String filePath = String.format("Test.txt");
         Airline airline = new Airline("Test");
         Flight flight = new Flight(666, "ABCABC", "4/20/2013", "11:25", "EGF", "03/2/2023", "1:03");
+        flight.setDepartPeriod("am");
+        flight.setArrivePeriod("pm");
         airline.addFlight(flight);
         TextDumper textDumper = new TextDumper(filePath);
         textDumper.dump(airline);
         TextParser textParser = new TextParser(filePath,airline);
         Airline airlineParsed = textParser.parse();
         assertNull(airlineParsed);
+        File deleteFile = new File("Test.txt");
+        deleteFile.delete();
     }
 
 

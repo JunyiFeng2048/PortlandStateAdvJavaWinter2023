@@ -44,7 +44,7 @@ public class TextParser implements AirlineParser<Airline>
   public boolean checkValidDateAndTimeInFile(String dateAndTime)
   {
     try {
-      new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(dateAndTime);
+      new SimpleDateFormat("MM/dd/yyyy HH:mm aa").parse(dateAndTime);
     } catch (ParseException e)
     {
       System.err.println("Invalid Date and Time in this file. Fix it first");
@@ -87,9 +87,11 @@ public class TextParser implements AirlineParser<Airline>
       flight.setSource(fileDataArray[2]);
       flight.setDepartDate(dateAndTime[0]);
       flight.setDepartTime(dateAndTime[1]);
+      flight.setDepartPeriod(dateAndTime[2]);
       flight.setDestination(fileDataArray[4]);
-      flight.setArriveDate(dateAndTime[2]);
-      flight.setArriveTime(dateAndTime[3]);
+      flight.setArriveDate(dateAndTime[3]);
+      flight.setArriveTime(dateAndTime[4]);
+      flight.setArrivePeriod(dateAndTime[5]);
       return flight;
     }
     return null;

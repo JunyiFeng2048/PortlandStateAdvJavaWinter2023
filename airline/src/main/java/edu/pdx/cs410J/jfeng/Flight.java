@@ -2,19 +2,25 @@ package edu.pdx.cs410J.jfeng;
 
 import edu.pdx.cs410J.AbstractFlight;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
-public class Flight extends AbstractFlight {
+public class Flight extends AbstractFlight implements Comparable<Flight> {
 
   private int flightNumber;
   private String src;
   private String departDate;
   private String departTime;
+  private String departPeriod;
+
   private String destination;
   private String arriveDate;
   private String arriveTime;
+  private String arrivePeriod;
+  private String duration;
 
   public Flight() {}
 
@@ -41,10 +47,24 @@ public class Flight extends AbstractFlight {
   }
 
   @Override
+  public Date getDeparture()  ////
+  {
+    String dateAndTime = departDate + " " + departTime + " " + departPeriod;
+    Date departure = new Date(dateAndTime);
+    return departure;
+  }
+
+  @Override
   public String getDepartureString()
   {
-    String departureString = departDate + " " + departTime;
-    return departureString;
+    if(departPeriod == null)
+    {
+      String departureString = departDate + " " + departTime;
+      return departureString;
+    }
+    Date departure = getDeparture();
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+    return simpleDateFormat.format(departure);
   }
 
   @Override
@@ -54,13 +74,37 @@ public class Flight extends AbstractFlight {
   }
 
   @Override
-  public String getArrivalString()
+  public Date getArrival()  ////
   {
-    String arriveString = arriveDate + " " + arriveTime;
-    return arriveString;
+    String dateAndTime = arriveDate + " " + arriveTime + " " + arrivePeriod;
+    Date arrive = new Date(dateAndTime);
+    return arrive;
   }
 
+  @Override
+  public String getArrivalString()
+  {
+    if(arrivePeriod == null)
+    {
+      String arriveString = arriveDate + " " + arriveTime;
+      return arriveString;
+    }
+    Date arrive = getArrival();
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+    return simpleDateFormat.format(arrive);
+  }
+  public String getDepartPeriod() {
+    return departPeriod;
+  }
 
+  public String getArrivePeriod() {
+    return arrivePeriod;
+  }
+
+  public String getDuration()
+  {
+    return duration;
+  }
   public String setFlightNumber(int flightNumber)
   {
     if(checkValidFlightNumber(flightNumber))
@@ -97,6 +141,14 @@ public class Flight extends AbstractFlight {
     return "Valid Time";
   }
 
+  public void setDepartPeriod(String departPeriod) {
+    this.departPeriod = departPeriod;
+  }
+
+  public void setArrivePeriod(String arrivePeriod) {
+    this.arrivePeriod = arrivePeriod;
+  }
+
   public String setDestination(String destination)
   {
     if(checkValidSrcAndDestCode(destination))
@@ -122,6 +174,11 @@ public class Flight extends AbstractFlight {
     else
       return "Invalid Time";
     return "Valid Time";
+  }
+
+  public void setDuration(String duration)
+  {
+    this.duration = duration;
   }
 
 
@@ -163,6 +220,24 @@ public class Flight extends AbstractFlight {
         return false;
     }
     return true;
+  }
+
+  public String prettyPrintReturn()
+  {
+    return "Flight " + getNumber() +
+            " departs " + getSource() +
+            " at " + getDepartureString() +
+            " and arrives " + getDestination() +
+            " at " + getArrivalString();
+  }
+
+  @Override
+  public int compareTo(Flight o) {
+    int result = src.compareTo(o.src);
+    if (result == 0) {
+      result = getDepartureString().compareTo(o.getDepartureString());
+    }
+    return result;
   }
 
 }
