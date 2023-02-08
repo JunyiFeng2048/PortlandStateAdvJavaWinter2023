@@ -6,6 +6,7 @@ import edu.pdx.cs410J.ParserException;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * A skeletal implementation of the <code>TextParser</code> class for Project 2.
@@ -68,6 +69,25 @@ public class TextParser implements AirlineParser<Airline>
     return true;
   }
 
+  private String calDuration(String departure, String arrival)
+  {
+    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+    try {
+      Date date1 = sdf.parse(departure);
+      Date date2 = sdf.parse(arrival);
+      long time_difference = date2.getTime() - date1.getTime();
+      long second = (time_difference / 1000) % 60;
+      long minute = (time_difference / (1000 * 60)) % 60;
+      long hour = (time_difference / (1000 * 60 * 60)) % 24;
+      String time = String.format("%02d:%02d:%02d", hour, minute, second);
+      return time;
+    }
+    catch (ParseException e) {
+      System.err.println("Invalid Date or Time");
+      return null;
+    }
+  }
+
   public Flight fileDataIsValid(String[] fileDataArray)
   {
 
@@ -92,6 +112,7 @@ public class TextParser implements AirlineParser<Airline>
       flight.setArriveDate(dateAndTime[3]);
       flight.setArriveTime(dateAndTime[4]);
       flight.setArrivePeriod(dateAndTime[5]);
+      flight.setDuration(calDuration(fileDataArray[3],fileDataArray[5]));
       return flight;
     }
     return null;
@@ -141,4 +162,6 @@ public class TextParser implements AirlineParser<Airline>
     }
     return airline;
   }
+
+
 }

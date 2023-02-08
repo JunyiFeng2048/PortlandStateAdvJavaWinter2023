@@ -271,7 +271,9 @@ class Project3IT extends InvokeMainTestCase {
     void testPrettyPrinter()
     {
         MainMethodResult result = invokeMain("-pretty", "prettyTest.txt",  "Air Canada", "666", "PDX", "3/15/2023", "10:49", "am", "PDX", "3/15/2023", "10:49", "pm");
-        assertThat(result.getTextWrittenToStandardOut(), containsString(""));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight"));
+        File deleteFile = new File("prettyTest.txt");
+        deleteFile.delete();
     }
 
 

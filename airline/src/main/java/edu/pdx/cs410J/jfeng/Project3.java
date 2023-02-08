@@ -140,8 +140,6 @@ public class Project3
       System.err.println("Invalid Date or Time");
       return null;
     }
-
-
   }
 
   static boolean getREADME()
@@ -320,6 +318,22 @@ public class Project3
         }
       }
     }
+    else if (argsLength == 11 && firstArg.equals("-pretty"))
+    {
+      String argArray[] = Arrays.copyOfRange(args, 2, 11);
+      if (validation(argArray))
+      {
+        Airline airline = new Airline(args[1]);
+        Flight flight = new Flight(Integer.parseInt(args[2]), args[3],
+                args[4], args[5], args[7], args[8], args[9]);
+        flight.setDepartPeriod(args[6].toLowerCase());
+        flight.setArrivePeriod(args[10].toLowerCase());
+        flight.setDuration(calDuration(flight.getDepartureString(), flight.getArrivalString()));
+        airline.addFlight(flight);
+        PrettyPrinter prettyPrinter = new PrettyPrinter();
+        prettyPrinter.print(airline);
+      }
+    }
     else if (argsLength == 12 && firstArg.equals("-pretty")) ////////
     {
       String argArray[] = Arrays.copyOfRange(args, 3, 12);
@@ -362,9 +376,43 @@ public class Project3
                   args[6], args[7], args[9], args[10], args[11]);
           flight.setDepartPeriod(args[8].toLowerCase());
           flight.setArrivePeriod(args[12].toLowerCase());
+          flight.setDuration(calDuration(flight.getDepartureString(), flight.getArrivalString()));
           airline.addFlight(flight);
           prettyPrinter.dump(airline);
           System.out.println("Successfully added a flight to " + filePath);
+        }
+      }
+    }
+    else if (argsLength == 13 && (firstArg.equals("-pretty") && args[1].equals("-textFile")))
+    {
+      String argArray[] = Arrays.copyOfRange(args, 4, 13);
+      String filePath = args[2];
+      if (isValidFileNameAndPath(filePath))
+      {
+        if (validation(argArray))
+        {
+          Airline airline = new Airline(args[3]);
+          TextParser textParser = new TextParser(filePath, airline);
+          airline = textParser.parse();
+          if (airline == null)
+          {
+            System.err.println("Error parsing airline text");
+            return;
+          }
+          Flight flight = new Flight(Integer.parseInt(args[4]), args[5],
+                  args[6], args[7], args[9], args[10], args[11]);
+          flight.setDepartPeriod(args[8]);
+          flight.setArrivePeriod(args[12]);
+          flight.setDuration(calDuration(flight.getDepartureString(), flight.getArrivalString()));
+          airline.addFlight(flight);
+          TextDumper textDumper = new TextDumper(filePath);
+          airline.sort();/////
+          textDumper.dump(airline);
+          System.out.println("Successfully added a flight to " + filePath);
+          //System.out.println(flight.toString());
+          PrettyPrinter prettyPrinter = new PrettyPrinter(filePath);
+          prettyPrinter.print(airline);
+
         }
       }
     }

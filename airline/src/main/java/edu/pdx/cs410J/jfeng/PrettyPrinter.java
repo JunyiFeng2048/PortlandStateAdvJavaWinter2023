@@ -10,6 +10,9 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
 
 
     private String filePath;
+    public PrettyPrinter()
+    {
+    }
 
     public PrettyPrinter(String filePath)
     {
@@ -43,6 +46,22 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
         }
         printWriter.close();
 
+    }
+
+    public void print(Airline airline)
+    {
+        ArrayList<Flight> flightArrayList = (ArrayList<Flight>) airline.getFlights();
+        airline.sort();
+        for (int i = 0; i < flightArrayList.size(); i++)
+        {
+            System.out.println("Airline: " + airline.getName() +
+                    ", Flight: " + flightArrayList.get(i).getNumber() +
+                    ", Source: " + flightArrayList.get(i).getSource() +
+                    ", Departure Time: " + flightArrayList.get(i).getDepartureString() +
+                    ", Destination: " + flightArrayList.get(i).getDestination() +
+                    ", Arrival Time: " + flightArrayList.get(i).getArrivalString() +
+                    ", Duration: " + flightArrayList.get(i).getDuration());
+        }
     }
 
 }
