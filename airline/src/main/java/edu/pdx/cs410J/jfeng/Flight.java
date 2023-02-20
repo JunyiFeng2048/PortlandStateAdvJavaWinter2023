@@ -46,10 +46,27 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     return src;
   }
 
+  public String getDepartDate() {
+    return departDate;
+  }
+
+  public String getDepartTime() {
+    return departTime;
+  }
+
+  public String getArriveDate() {
+    return arriveDate;
+  }
+
+  public String getArriveTime() {
+    return arriveTime;
+  }
+
   @Override
   public Date getDeparture()  ////
   {
     String dateAndTime = departDate + " " + departTime + " " + departPeriod;
+    //System.out.println(dateAndTime);
     Date departure = new Date(dateAndTime);
     return departure;
   }
@@ -77,8 +94,17 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   public Date getArrival()  ////
   {
     String dateAndTime = arriveDate + " " + arriveTime + " " + arrivePeriod;
-    Date arrive = new Date(dateAndTime);
-    return arrive;
+    try
+    {
+      Date arrive = new Date(dateAndTime);
+      return arrive;
+    }catch (IllegalArgumentException e)
+    {
+      System.err.println("Invalid Date or Time");
+      System.exit(0);
+    }
+
+    return null;
   }
 
   @Override
