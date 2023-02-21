@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.jfeng;
 import javax.xml.parsers.*;
 
+import edu.pdx.cs410J.AirlineParser;
 import org.checkerframework.checker.units.qual.A;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -13,7 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class XmlParser {
+public class XmlParser implements AirlineParser<Airline> {
 
     private String filePath;
     private Airline airline;
@@ -22,29 +23,23 @@ public class XmlParser {
         this.filePath = filePath;
         this.airline = airline;
     }
-
-    public Airline parse() throws IOException, SAXException, ParserConfigurationException {
+    @Override
+    public Airline parse()
+    {
         AirlineXmlHelper helper = new AirlineXmlHelper();
         File inputFile = new File(filePath);
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setValidating(true);
 
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        builder.setErrorHandler(helper);
-        builder.setEntityResolver(helper);
 
         //Document document = builder.parse(inputFile);
         try {
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            builder.setErrorHandler(helper);
+            builder.setEntityResolver(helper);
             Document document = builder.parse(inputFile);
             document.getDocumentElement().normalize();
-
-            //Element rootElement = document.getDocumentElement();
-
-            //NodeList airlineList = rootElement.getElementsByTagName("name");
-            //Element element = (Element) airlineList.item(0);
-            //System.out.println("Airline : " + element.getTextContent());
-            //airline = new Airline(element.getTextContent());
 
             NodeList flightList = document.getElementsByTagName("flight");
             for (int i = 0; i < flightList.getLength(); i++)
@@ -97,20 +92,52 @@ public class XmlParser {
                     String arriveTime = arriveHour
                             + ":" + flightElement.getElementsByTagName("time").item(1).getAttributes().getNamedItem("minute").getNodeValue();
                     flight.setArriveTime(arriveTime);
-
                     airline.addFlight(flight);
-
-                    //System.out.println("Flight " + number + " from " + src + " to " + dest + " departs on " + departDate + " at " + departTime + " and arrives on " + arriveDate + " at " + arriveTime);
                 }
             }
         } catch (FileNotFoundException e) {
             return airline; //if the file does not exist
+        } catch (ParserConfigurationException e) {
+            return airline; //if the file does not exist
+        } catch (IOException e) {
+            return airline; //if the file does not exist
+        } catch (SAXException e) {
+            return airline; //if the file does not exist
         }
-
-
-
         return airline;
+    }
 
+    public String getAirlineName() throws ParserConfigurationException
+    {
+        AirlineXmlHelper helper = new AirlineXmlHelper();
+        File inputFile = new File(filePath);
+        if (inputFile.exists())
+        {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setValidating(true);
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            builder.setErrorHandler(helper);
+            builder.setEntityResolver(helper);
+            try {
+                Document document = builder.parse(inputFile);
+                document.getDocumentElement().normalize();
 
+                Element rootElement = document.getDocumentElement();
+
+                NodeList airlineList = rootElement.getElementsByTagName("name");
+                Element element = (Element) airlineList.item(0);
+                return element.getTextContent();
+            } catch (IOException e) {
+                System.err.println("Error parsing " + filePath);
+                e.printStackTrace();
+            } catch (SAXException e) {
+                System.err.println("Error parsing " + filePath);
+                e.printStackTrace();
+            }
+        } else
+        {
+            return "null";
+        }
+        return "null";
     }
 }

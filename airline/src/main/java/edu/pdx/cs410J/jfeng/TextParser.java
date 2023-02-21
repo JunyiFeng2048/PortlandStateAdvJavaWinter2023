@@ -146,7 +146,7 @@ public class TextParser implements AirlineParser<Airline>
             return null;
           }
         }
-        flight = fileDataIsValid(fileDataArray); ///////////////////
+        flight = fileDataIsValid(fileDataArray);
         if(flight == null)
         {
           return null;
@@ -157,7 +157,6 @@ public class TextParser implements AirlineParser<Airline>
         }
       }
     } catch (IOException e) {
-      //throw new ParserException("While parsing airline text", e);
       System.err.println("Error parsing airline text");
       return null;
     }

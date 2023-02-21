@@ -47,7 +47,6 @@ public class TextParserTest
 
     }
 
-
     @Test
     void parseAnEmptyFile() throws ParserException
     {
@@ -73,7 +72,5 @@ public class TextParserTest
         File deleteFile = new File("test.txt");
         deleteFile.delete();
     }
-
-
 
 }

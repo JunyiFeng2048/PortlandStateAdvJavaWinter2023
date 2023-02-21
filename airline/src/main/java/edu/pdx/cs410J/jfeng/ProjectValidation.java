@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class ProjectValidation {
-    static boolean isValidDateAndTime(String dateAndTime)
+    public boolean isValidDateAndTime(String dateAndTime)
     {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
         boolean valid;
@@ -26,7 +26,7 @@ public class ProjectValidation {
         return valid;
     }
 
-    static boolean isValidFlightNumber(String flightNumber)
+    public boolean isValidFlightNumber(String flightNumber)
     {
         try
         {
@@ -45,7 +45,7 @@ public class ProjectValidation {
         return true;
     }
 
-    static boolean isValidSrcAndDestCode(String str)
+    public boolean isValidSrcAndDestCode(String str)
     {
         if(str.length() != 3)
         {
@@ -69,7 +69,7 @@ public class ProjectValidation {
         return false;
     }
 
-    static boolean isValidTextFileNameAndPath(String filePath)
+    public boolean isValidTextFileNameAndPath(String filePath)
     {
         String fileType = ".txt";
         if(filePath.length() < 4 || !fileType.equals(filePath.substring(filePath.length() - 4)))
@@ -93,7 +93,7 @@ public class ProjectValidation {
         return true;
     }
 
-    static boolean isValidXmlFileNameAndPath(String filePath)
+    public boolean isValidXmlFileNameAndPath(String filePath)
     {
         String fileType = ".xml";
         if(filePath.length() < 4 || !fileType.equals(filePath.substring(filePath.length() - 4)))
@@ -117,7 +117,7 @@ public class ProjectValidation {
         return true;
     }
 
-    static boolean isValidDuration(String departure, String arrival)
+    public boolean isValidDuration(String departure, String arrival)
     {
         try{
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
@@ -137,7 +137,7 @@ public class ProjectValidation {
         return true;
     }
 
-    static boolean validation(String[] argArray)
+    public boolean validation(String[] argArray)
     {
         String departure = argArray[2] + " " + argArray[3] + " " + argArray[4];
         String arrival = argArray[6] + " " + argArray[7] + " " + argArray[8];

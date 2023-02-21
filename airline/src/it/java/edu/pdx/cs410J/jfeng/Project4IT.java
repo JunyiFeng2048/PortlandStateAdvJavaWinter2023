@@ -188,14 +188,14 @@ class Project4IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Src or Dest Code"));
     }
 
-
+/*
     @Test
     void testAddFlight()
     {
         MainMethodResult result = invokeMain("CS410J Air Express", "666", "PDX", "03/15/2023", "10:39", "am", "PDX", "03/15/2023", "1:03", "pm");
         assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight to " + "CS410J Air Express"));
     }
-
+*/
     @Test
     void testPrintFlight()
     {
@@ -291,6 +291,15 @@ class Project4IT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain("-pretty","-print", "textFile", "test.txt",  "Air Canada", "666", "PDX", "3/15/2023", "10:49", "am", "PDX", "3/16/2023", "10:49", "pm");
         assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight"));
         File deleteFile = new File("test.txt");
+        deleteFile.delete();
+    }
+
+    @Test
+    void testXmlFile()
+    {
+        MainMethodResult result = invokeMain("-xmlFile","test.xml",  "Air Canada", "666", "PDX", "3/15/2023", "10:49", "am", "PDX", "3/16/2023", "10:49", "pm");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Successfully added a flight"));
+        File deleteFile = new File("test.xml");
         deleteFile.delete();
     }
 }

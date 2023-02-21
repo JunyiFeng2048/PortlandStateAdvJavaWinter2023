@@ -45,7 +45,7 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
             printWriter.flush();
         }
         printWriter.close();
-
+        System.out.println("Successfully added a flight to " + filePath);
     }
 
     public void print(Airline airline)

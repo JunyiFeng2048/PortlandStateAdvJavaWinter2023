@@ -34,6 +34,7 @@ public class TextDumper implements AirlineDumper<Airline>
       printWriter.flush();
     }
     printWriter.close();
+    System.out.println("Successfully added a flight to " + filePath);
   }
 
 
@@ -71,5 +72,48 @@ public class TextDumper implements AirlineDumper<Airline>
       writeFile(airline);
     }
 
+  }
+
+  public void prettyDump(Airline airline) throws IOException
+  {
+    PrintWriter printWriter = new PrintWriter(new FileOutputStream((filePath),true));
+    ArrayList<Flight> flightArrayList = (ArrayList<Flight>) airline.getFlights();
+    airline.sort();
+    for (int i = 0; i < flightArrayList.size(); i++)
+    {
+      System.out.println("Airline: " + airline.getName() +
+              ", Flight: " + flightArrayList.get(i).getNumber() +
+              ", Source: " + flightArrayList.get(i).getSource() +
+              ", Departure Time: " + flightArrayList.get(i).getDepartureString() +
+              ", Destination: " + flightArrayList.get(i).getDestination() +
+              ", Arrival Time: " + flightArrayList.get(i).getArrivalString() +
+              ", Duration: " + flightArrayList.get(i).getDuration());
+      printWriter.println("Airline: " + airline.getName() +
+              ", Flight: " + flightArrayList.get(i).getNumber() +
+              ", Source: " + flightArrayList.get(i).getSource() +
+              ", Departure Time: " + flightArrayList.get(i).getDepartureString() +
+              ", Destination: " + flightArrayList.get(i).getDestination() +
+              ", Arrival Time: " + flightArrayList.get(i).getArrivalString() +
+              ", Duration: " + flightArrayList.get(i).getDuration());
+      printWriter.flush();
+    }
+    printWriter.close();
+    System.out.println("Successfully added a flight to " + filePath);
+  }
+
+  public void prettyPrint(Airline airline)
+  {
+    ArrayList<Flight> flightArrayList = (ArrayList<Flight>) airline.getFlights();
+    airline.sort();
+    for (int i = 0; i < flightArrayList.size(); i++)
+    {
+      System.out.println("Airline: " + airline.getName() +
+              ", Flight: " + flightArrayList.get(i).getNumber() +
+              ", Source: " + flightArrayList.get(i).getSource() +
+              ", Departure Time: " + flightArrayList.get(i).getDepartureString() +
+              ", Destination: " + flightArrayList.get(i).getDestination() +
+              ", Arrival Time: " + flightArrayList.get(i).getArrivalString() +
+              ", Duration: " + flightArrayList.get(i).getDuration());
+    }
   }
 }

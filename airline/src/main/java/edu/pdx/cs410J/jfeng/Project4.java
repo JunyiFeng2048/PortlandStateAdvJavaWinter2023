@@ -95,7 +95,7 @@ public class Project4
         flight.setArrivePeriod(args[9]);
         Airline airline = new Airline(args[0]);
         airline.addFlight(flight);
-        System.out.println("Successfully added a flight to " + args[0]);
+        //System.out.println("Successfully added a flight to " + args[0]);
         System.out.println(args[0] + " " + flight.prettyPrintReturn());
 
       }
@@ -138,7 +138,7 @@ public class Project4
           TextDumper textDumper = new TextDumper(filePath);
           airline.sort();/////
           textDumper.dump(airline);
-          System.out.println("Successfully added a flight to " + filePath);
+          //System.out.println("Successfully added a flight to " + filePath);
         }
       }
     }
@@ -165,7 +165,7 @@ public class Project4
           TextDumper textDumper = new TextDumper(filePath);
           airline.sort();/////
           textDumper.dump(airline);
-          System.out.println("Successfully added a flight to " + filePath);
+          //System.out.println("Successfully added a flight to " + filePath);
           System.out.println(flight.toString());
         }
       }
@@ -194,7 +194,7 @@ public class Project4
           TextDumper textDumper = new TextDumper(filePath);
           airline.sort();/////
           textDumper.dump(airline);
-          System.out.println("Successfully added a flight to " + filePath);
+          //System.out.println("Successfully added a flight to " + filePath);
           System.out.println(flight.toString());
         }
       }
@@ -232,7 +232,7 @@ public class Project4
           flight.setDuration(calDuration(flight.getDepartureString(), flight.getArrivalString()));
           airline.addFlight(flight);
           prettyPrinter.dump(airline);
-          System.out.println("Successfully added a flight to " + filePath);
+          //System.out.println("Successfully added a flight to " + filePath);
         }
       }
     }
@@ -260,7 +260,7 @@ public class Project4
           flight.setDuration(calDuration(flight.getDepartureString(), flight.getArrivalString()));
           airline.addFlight(flight);
           prettyPrinter.dump(airline);
-          System.out.println("Successfully added a flight to " + filePath);
+          //System.out.println("Successfully added a flight to " + filePath);
         }
       }
     }
@@ -289,7 +289,7 @@ public class Project4
           TextDumper textDumper = new TextDumper(filePath);
           airline.sort();/////
           textDumper.dump(airline);
-          System.out.println("Successfully added a flight to " + filePath);
+          //System.out.println("Successfully added a flight to " + filePath);
           PrettyPrinter prettyPrinter = new PrettyPrinter(filePath);
           prettyPrinter.print(airline);
         }
@@ -321,7 +321,7 @@ public class Project4
           TextDumper textDumper = new TextDumper(filePath);
           airline.sort();/////
           textDumper.dump(airline);
-          System.out.println("Successfully added a flight to " + filePath);
+          //System.out.println("Successfully added a flight to " + filePath);
           PrettyPrinter prettyPrinter = new PrettyPrinter(filePath);
           prettyPrinter.print(airline);
         }
@@ -351,7 +351,37 @@ public class Project4
           XmlDumper xmlDumper = new XmlDumper(filePath);
           airline.sort();/////
           xmlDumper.dump(airline);
-          System.out.println("Successfully added a flight to " + filePath);
+          //System.out.println("Successfully added a flight to " + filePath);
+        }
+      }
+    }
+    else if (argsLength == 13 && (firstArg.equals("-print") && args[1].equals("-xmlFile")))
+    {
+      String argArray[] = Arrays.copyOfRange(args, 4, 13);
+      String filePath = args[2];
+      if (pv.isValidXmlFileNameAndPath(filePath))
+      {
+        if (pv.validation(argArray))
+        {
+          Airline airline = new Airline(args[3]);
+          XmlParser xmlParser = new XmlParser(filePath, airline);
+          airline = xmlParser.parse();
+          if (airline == null)
+          {
+            System.err.println("Error parsing airline xml");
+            return;
+          }
+          Flight flight = new Flight(Integer.parseInt(args[4]), args[5],
+                  args[6], args[7], args[9], args[10], args[11]);
+          flight.setDepartPeriod(args[8]);
+          flight.setArrivePeriod(args[12]);
+          airline.addFlight(flight);
+          XmlDumper xmlDumper = new XmlDumper(filePath);
+          airline.sort();/////
+          xmlDumper.dump(airline);
+          //System.out.println("Successfully added a flight to " + filePath);
+          System.out.println(flight.toString());
+
         }
       }
     }

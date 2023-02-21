@@ -7,7 +7,6 @@ import edu.pdx.cs410J.AirlineDumper;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,19 +24,25 @@ public class XmlDumper implements AirlineDumper<Airline> {
     private final String DTD_URL = "http://www.cs.pdx.edu/˜whitlock/dtds/airline.dtd";
     private String filePath;
 
-
     public XmlDumper(String filePath)
     {
         this.filePath = filePath;
     }
 
-
     @Override
-    public void dump(Airline airline) throws IOException {
+    public void dump(Airline airline) throws IOException
+    {
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.newDocument();
+
+            XmlParser xmlParser = new XmlParser(filePath,airline);
+            if(!xmlParser.getAirlineName().equals(airline.getName()) && !xmlParser.getAirlineName().equals("null"))
+            {
+                System.out.println("This is not the file for Airline " + airline.getName());
+                return;
+            }
 
             Element root = document.createElement("airline");
             Element nameElement = document.createElement("name");
@@ -50,20 +55,16 @@ public class XmlDumper implements AirlineDumper<Airline> {
                 Element flightElement = document.createElement("flight");
                 root.appendChild(flightElement);
 
-
                 Element numberElement = document.createElement("number");
                 numberElement.appendChild(document.createTextNode(String.valueOf(flight.getNumber())));
                 flightElement.appendChild(numberElement);
-
 
                 Element srcElement = document.createElement("src");
                 srcElement.appendChild(document.createTextNode(flight.getSource()));
                 flightElement.appendChild(srcElement);
 
-
                 Element departElement = document.createElement("depart");
                 flightElement.appendChild(departElement);
-
 
                 String[] departDate = flight.getDepartDate().split("/");
                 Element departDateElement = document.createElement("date");
@@ -121,7 +122,6 @@ public class XmlDumper implements AirlineDumper<Airline> {
                 arriveElement.appendChild(arriveTimeElement);
             }
 
-
             document.appendChild(root);
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
@@ -130,20 +130,13 @@ public class XmlDumper implements AirlineDumper<Airline> {
 
             DOMSource domSource = new DOMSource(document);
 
-            /*
-            FileOutputStream fileOutputStream = new FileOutputStream(filePath);
-            StreamResult streamResult = new StreamResult(fileOutputStream);
-            transformer.setOutputProperty(OutputKeys.ENCODING, "us-ascii");
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.transform(domSource, streamResult);
-            fileOutputStream.close();
-             */
             PrintWriter printWriter = new PrintWriter(new FileOutputStream((filePath)));
             StreamResult streamResult = new StreamResult(printWriter);
             transformer.setOutputProperty(OutputKeys.ENCODING, "us-ascii");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.transform(domSource, streamResult);
             printWriter.close();
+            System.out.println("Successfully added a flight to " + filePath);
 
         } catch (ParserConfigurationException | IOException e) {
             e.printStackTrace();
@@ -152,8 +145,4 @@ public class XmlDumper implements AirlineDumper<Airline> {
             e.printStackTrace();
         }
     }
-
-
-
-
 }
