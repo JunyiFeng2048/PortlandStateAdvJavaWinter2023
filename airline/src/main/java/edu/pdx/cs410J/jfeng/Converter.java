@@ -32,7 +32,7 @@ public class Converter {
             XmlDumper xmlDumper = new XmlDumper(xmlFilePath);
             xmlDumper.dump(airline);
             buffer.close();
-            System.out.println("Successfully converted " + textFilePath + " to " + xmlFilePath);
+            //System.out.println("Successfully converted " + textFilePath + " to " + xmlFilePath);
         }
     }
 
