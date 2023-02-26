@@ -37,48 +37,35 @@ public class AirlineRestClient
 
     @VisibleForTesting
     AirlineRestClient(HttpRequestHelper http) {
-      this.http = http;
+        this.http = http;
     }
 
-  /**
-   * Returns all dictionary entries from the server
-   */
-  public Map<String, String> getAllDictionaryEntries() throws IOException, ParserException {
-    Response response = http.get(Map.of());
-    throwExceptionIfNotOkayHttpStatus(response);
+    public Airline getAirline(String airlineName) throws IOException, ParserException {
+        Response response = http.get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName));
+        throwExceptionIfNotOkayHttpStatus(response);
+        String content = response.getContent();
 
-    TextParser parser = new TextParser(new StringReader(response.getContent()));
-    return parser.parse();
-  }
-
-  /**
-   * Returns the definition for the given word
-   */
-  public String getDefinition(String word) throws IOException, ParserException {
-    Response response = http.get(Map.of(AirlineServlet.WORD_PARAMETER, word));
-    throwExceptionIfNotOkayHttpStatus(response);
-    String content = response.getContent();
-
-    TextParser parser = new TextParser(new StringReader(content));
-    return parser.parse().get(word);
-  }
-
-  public void addDictionaryEntry(String word, String definition) throws IOException {
-    Response response = http.post(Map.of(AirlineServlet.WORD_PARAMETER, word, AirlineServlet.DEFINITION_PARAMETER, definition));
-    throwExceptionIfNotOkayHttpStatus(response);
-  }
-
-  public void removeAllDictionaryEntries() throws IOException {
-    Response response = http.delete(Map.of());
-    throwExceptionIfNotOkayHttpStatus(response);
-  }
-
-  private void throwExceptionIfNotOkayHttpStatus(Response response) {
-    int code = response.getHttpStatusCode();
-    if (code != HTTP_OK) {
-      String message = response.getContent();
-      throw new RestException(code, message);
+        TextParser parser = new TextParser(new StringReader(content));
+        return parser.parse();
     }
-  }
+
+    public void addFlight(String word, String definition) throws IOException {
+        Response response = http.post(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, word,
+                AirlineServlet.FLIGHT_NUMBER_PARAMETER, definition));
+        throwExceptionIfNotOkayHttpStatus(response);
+    }
+
+    public void removeAllAirlines() throws IOException {
+        Response response = http.delete(Map.of());
+        throwExceptionIfNotOkayHttpStatus(response);
+    }
+
+    private void throwExceptionIfNotOkayHttpStatus(Response response) {
+        int code = response.getHttpStatusCode();
+        if (code != HTTP_OK) {
+            String message = response.getContent();
+            throw new RestException(code, message);
+        }
+    }
 
 }

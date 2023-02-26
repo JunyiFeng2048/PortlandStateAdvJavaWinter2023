@@ -26,7 +26,8 @@ public class PrettyPrinter {
     this.writer = writer;
   }
 
-  public void dump(Map<String, String> dictionary) {
+  public void dump(Map<String, String> dictionary)
+  {
     try (
       PrintWriter pw = new PrintWriter(this.writer)
     ) {

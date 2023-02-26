@@ -11,39 +11,47 @@ import java.util.Map;
  * The main class that parses the command line and communicates with the
  * Airline server using REST.
  */
-public class Project5 {
-
+public class Project5
+{
     public static final String MISSING_ARGS = "Missing command line arguments";
 
-    public static void main(String... args) {
+    public static void main(String... args)
+    {
         String hostName = null;
         String portString = null;
-        String word = null;
-        String definition = null;
+        String airlineName = null;
+        String flightNumberAsString = null;
 
-        for (String arg : args) {
-            if (hostName == null) {
+        for (String arg : args)
+        {
+            if (hostName == null)
+            {
                 hostName = arg;
-
-            } else if ( portString == null) {
+            }
+            else if ( portString == null)
+            {
                 portString = arg;
-
-            } else if (word == null) {
-                word = arg;
-
-            } else if (definition == null) {
-                definition = arg;
-
-            } else {
+            }
+            else if (airlineName == null)
+            {
+                airlineName = arg;
+            }
+            else if (flightNumberAsString == null)
+            {
+                flightNumberAsString = arg;
+            }
+            else
+            {
                 usage("Extraneous command line argument: " + arg);
             }
         }
-
-        if (hostName == null) {
+        if (hostName == null)
+        {
             usage( MISSING_ARGS );
             return;
-
-        } else if ( portString == null) {
+        }
+        else if ( portString == null)
+        {
             usage( "Missing port" );
             return;
         }
@@ -51,7 +59,6 @@ public class Project5 {
         int port;
         try {
             port = Integer.parseInt( portString );
-
         } catch (NumberFormatException ex) {
             usage("Port \"" + portString + "\" must be an integer");
             return;
@@ -59,24 +66,22 @@ public class Project5 {
 
         AirlineRestClient client = new AirlineRestClient(hostName, port);
 
-        String message;
         try {
-            if (word == null) {
-                // Print all word/definition pairs
-                Map<String, String> dictionary = client.getAllDictionaryEntries();
-                StringWriter sw = new StringWriter();
-                PrettyPrinter pretty = new PrettyPrinter(sw);
-                pretty.dump(dictionary);
-                message = sw.toString();
+            if (airlineName == null)
+            {
+                error("Airline name required");
+            }
+            else if (flightNumberAsString == null)
+            {
+                // Pretty Print the entire airline
+                Airline airline = client.getAirline(airlineName);
+                System.out.println(airline.toString());
 
-            } else if (definition == null) {
-                // Print all dictionary entries
-                message = PrettyPrinter.formatDictionaryEntry(word, client.getDefinition(word));
-
-            } else {
-                // Post the word/definition pair
-                client.addDictionaryEntry(word, definition);
-                message = Messages.definedWordAs(word, definition);
+            }
+            else
+            {
+                client.addFlight(airlineName, flightNumberAsString);
+                System.out.println("added");
             }
 
         } catch (IOException | ParserException ex ) {
@@ -84,7 +89,6 @@ public class Project5 {
             return;
         }
 
-        System.out.println(message);
     }
 
     private static void error( String message )

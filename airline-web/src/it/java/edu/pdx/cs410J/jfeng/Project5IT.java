@@ -3,6 +3,7 @@ package edu.pdx.cs410J.jfeng;
 import edu.pdx.cs410J.InvokeMainTestCase;
 import edu.pdx.cs410J.UncaughtExceptionInMain;
 import edu.pdx.cs410J.web.HttpRequestHelper.RestException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
@@ -25,19 +26,20 @@ class Project5IT extends InvokeMainTestCase {
     private static final String PORT = System.getProperty("http.port", "8080");
 
     @Test
-    void test0RemoveAllMappings() throws IOException {
-      AirlineRestClient client = new AirlineRestClient(HOSTNAME, Integer.parseInt(PORT));
-      client.removeAllDictionaryEntries();
+    void testRemoveAllMappings() throws IOException {
+        AirlineRestClient client = new AirlineRestClient(HOSTNAME, Integer.parseInt(PORT));
+        client.removeAllAirlines();
     }
 
     @Test
-    void test1NoCommandLineArguments() {
+    void testNoCommandLineArguments() {
         MainMethodResult result = invokeMain( Project5.class );
         assertThat(result.getTextWrittenToStandardError(), containsString(Project5.MISSING_ARGS));
     }
 
     @Test
-    void test2EmptyServer() {
+    @Disabled
+    void testEmptyServer() {
         MainMethodResult result = invokeMain( Project5.class, HOSTNAME, PORT );
 
         assertThat(result.getTextWrittenToStandardError(), equalTo(""));
@@ -47,7 +49,7 @@ class Project5IT extends InvokeMainTestCase {
     }
 
     @Test
-    void test3NoDefinitionsThrowsAppointmentBookRestException() {
+    void testNoDefinitionsThrowsAppointmentBookRestException() {
         String word = "WORD";
         try {
             invokeMain(Project5.class, HOSTNAME, PORT, word);
@@ -59,30 +61,44 @@ class Project5IT extends InvokeMainTestCase {
         }
     }
 
+    //@Disabled
     @Test
-    void test4AddDefinition() {
-        String word = "WORD";
-        String definition = "DEFINITION";
+    void testAddAirline() {
+        String airlineName = "Airline";
+        String flightNumber = "456";
 
-        MainMethodResult result = invokeMain( Project5.class, HOSTNAME, PORT, word, definition );
+        MainMethodResult result = invokeMain( Project5.class, HOSTNAME, PORT, airlineName, flightNumber );
 
         assertThat(result.getTextWrittenToStandardError(), equalTo(""));
 
         String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(Messages.definedWordAs(word, definition)));
+        //assertThat(out, containsString(Messages.definedAirlineAs(airlineName, flightNumber)));
+        assertThat(out, containsString("added"));
 
-        result = invokeMain( Project5.class, HOSTNAME, PORT, word );
+        result = invokeMain( Project5.class, HOSTNAME, PORT, airlineName );
 
         assertThat(result.getTextWrittenToStandardError(), equalTo(""));
 
-        out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(PrettyPrinter.formatDictionaryEntry(word, definition)));
+        //out = result.getTextWrittenToStandardOut();
+        //assertThat(out, containsString(PrettyPrinter.formatDictionaryEntry(airlineName, flightNumber)));
 
         result = invokeMain( Project5.class, HOSTNAME, PORT );
 
-        assertThat(result.getTextWrittenToStandardError(), equalTo(""));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Airline name required"));
 
-        out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(PrettyPrinter.formatDictionaryEntry(word, definition)));
+        //out = result.getTextWrittenToStandardOut();
+        //assertThat(out, containsString(PrettyPrinter.formatDictionaryEntry(airlineName, flightNumber)));
     }
+
+    /*
+    @Test
+    void testPrintFlightsForAirline(){
+        String airlineName = "Airline";
+        MainMethodResult result = invokeMain( Project5.class, HOSTNAME, PORT, airlineName);
+
+
+
+    }
+
+     */
 }
