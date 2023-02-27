@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class AirlineServlet extends HttpServlet {
     static final String AIRLINE_NAME_PARAMETER = "airline";
-    static final String FLIGHT_NUMBER_PARAMETER = "flightNumber";
+    static final String FLIGHT_DETAIL_PARAMETER = "flightDetail";
 
     private final Map<String, Airline> airlines = new HashMap<>();
 
@@ -53,17 +53,16 @@ public class AirlineServlet extends HttpServlet {
         response.setContentType( "text/plain" );
 
         String airlineName = getParameter(AIRLINE_NAME_PARAMETER, request );
-        //System.err.println(airlineName);
         if (airlineName == null)
         {
             missingRequiredParameter(response, AIRLINE_NAME_PARAMETER);
             return;
         }
 
-        String flightNumberAsString = getParameter(FLIGHT_NUMBER_PARAMETER, request );
-        if ( flightNumberAsString == null)
+        String flightDetailAsString = getParameter(FLIGHT_DETAIL_PARAMETER, request );
+        if ( flightDetailAsString == null)
         {
-            missingRequiredParameter( response, FLIGHT_NUMBER_PARAMETER);
+            missingRequiredParameter( response, FLIGHT_DETAIL_PARAMETER);
             return;
         }
 
@@ -74,10 +73,24 @@ public class AirlineServlet extends HttpServlet {
             this.airlines.put(airlineName, airline);
         }
 
-        airline.addFlight(new Flight(Integer.parseInt(flightNumberAsString)));
+        String[] flightDetail = flightDetailAsString.split(" ");
+        int flightNumber = Integer.parseInt(flightDetail[0]);
+        String sourceCode = flightDetail[1];
+        String departDate = flightDetail[2];
+        String departTime = flightDetail[3];
+        String departPeriod = flightDetail[4];
+        String destinationCode = flightDetail[5];
+        String arrivalDate = flightDetail[6];
+        String arrivalTime = flightDetail[7];
+        String arrivalPeriod = flightDetail[8];
 
+        Flight flight = new Flight(flightNumber, sourceCode, departDate, departTime, destinationCode, arrivalDate, arrivalTime);
+        flight.setDepartPeriod(departPeriod);
+        flight.setArrivalPeriod(arrivalPeriod);
+        airline.addFlight(flight);
+        System.out.println(airlineName + ": " + flightDetailAsString);
         PrintWriter pw = response.getWriter();
-        pw.println(Messages.definedAirlineAs(airlineName, flightNumberAsString));
+        pw.println(Messages.definedAirlineAs(airlineName, flightDetailAsString));
         pw.flush();
 
         response.setStatus( HttpServletResponse.SC_OK);
@@ -124,7 +137,6 @@ public class AirlineServlet extends HttpServlet {
 
         if (airline == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-
         } else {
             PrintWriter pw = response.getWriter();
             TextDumper dumper = new TextDumper(pw);
@@ -157,7 +169,6 @@ public class AirlineServlet extends HttpServlet {
         String value = request.getParameter(name);
         if (value == null || "".equals(value)) {
             return null;
-
         } else {
             return value;
         }

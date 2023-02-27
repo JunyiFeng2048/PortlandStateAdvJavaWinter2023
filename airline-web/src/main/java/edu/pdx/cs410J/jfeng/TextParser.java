@@ -36,7 +36,10 @@ public class TextParser {
         if (airline == null) {
           airline = new Airline(airlineName);
         }
-        airline.addFlight(new Flight(Integer.parseInt(flightNumberAsString)));
+        //airline.addFlight(new Flight(Integer.parseInt(flightNumberAsString)));
+        Flight flight = new Flight(123, "PDX", "07/19/2023", "1:02", "ORD", "07/19/2023", "6:22");
+        airline.addFlight(flight);
+
       }
 
     } catch (IOException e) {

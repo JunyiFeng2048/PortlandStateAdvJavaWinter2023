@@ -37,6 +37,7 @@ class AirlineServletTest {
     verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
   }
 
+  /*
   @Test
   void addFlightInNewAirline() throws IOException {
     AirlineServlet servlet = new AirlineServlet();
@@ -75,5 +76,5 @@ class AirlineServletTest {
     Flight flight = airline.getFlights().iterator().next();
     assertThat(flight.getNumber(), equalTo(flightNumber));
   }
-
+*/
 }

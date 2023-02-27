@@ -16,10 +16,14 @@ public class TextDumper {
             PrintWriter pw = new PrintWriter(this.writer)
     ){
       String airlineName = airline.getName();
-      for (Flight flight : airline.getFlights()) {
-        pw.println(airlineName + " : " + flight.getNumber());
+      for (Flight flight : airline.getFlights())
+      {
+        pw.println(airlineName + ": " + flight.getFlightNumber() + " " +
+                flight.getSourceCode() + " " + flight.getDepartDate() + " " +
+                flight.getDepartTime() + " " + flight.getDepartPeriod() + " " +
+                flight.getDestinationCode() + " " + flight.getArrivalDate() + " " +
+                flight.getArrivalTime() + " " + flight.getArrivalPeriod());
       }
-
       pw.flush();
     }
   }

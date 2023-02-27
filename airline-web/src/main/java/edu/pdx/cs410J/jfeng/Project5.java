@@ -5,6 +5,7 @@ import edu.pdx.cs410J.ParserException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -15,6 +16,7 @@ public class Project5
 {
     public static final String MISSING_ARGS = "Missing command line arguments";
 
+    /*
     public static void main(String... args)
     {
         String hostName = null;
@@ -90,7 +92,100 @@ public class Project5
         }
 
     }
+    */
+    private static void addFlightToServer(String[] args)
+    {
+        Validatior validatior = new Validatior();
+        String hostCommand = null;
+        String hostName = null;
+        String portCommand = null;
+        String portString = null;
+        String airlineName = null;
+        String flightNumberAsString = null;
+        String sourceCode = null;
+        String departDate = null;
+        String departTime = null;
+        String departPeriod = null;
+        String destinationCode = null;
+        String arrivalDate = null;
+        String arrivalTime = null;
+        String arrivalPeriod = null;
 
+        for (String arg : args)
+        {
+            if (hostCommand == null)
+                hostCommand = arg;
+            else if (hostName == null)
+                hostName = arg;
+            else if (portCommand == null)
+                portCommand = arg;
+            else if (portString == null)
+                portString = arg;
+            else if (airlineName == null)
+                airlineName = arg;
+            else if (flightNumberAsString == null)
+                flightNumberAsString = arg;
+            else if (sourceCode == null)
+                sourceCode = arg;
+            else if (departDate == null)
+                departDate = arg;
+            else if (departTime == null)
+                departTime = arg;
+            else if (departPeriod == null)
+                departPeriod = arg;
+            else if (destinationCode == null)
+                destinationCode = arg;
+            else if (arrivalDate == null)
+                arrivalDate = arg;
+            else if (arrivalTime == null)
+                arrivalTime = arg;
+            else if (arrivalPeriod == null)
+                arrivalPeriod = arg;
+        }
+        String[] infoArgs = Arrays.copyOfRange(args, 4, args.length);
+
+        if(!validatior.validation(infoArgs) || !validatior.isValidPort(portString))
+            return;
+
+        AirlineRestClient client = new AirlineRestClient(hostName, Integer.parseInt(portString));
+        try {
+                client.addFlight(infoArgs);
+                System.out.println("Added Flight " + flightNumberAsString + " to " + airlineName);
+        } catch (IOException e ) {
+            error("While contacting server: " + e.getMessage());
+        }
+    }
+
+    private static void prettyPrintAirline(String[] args)
+    {
+
+    }
+
+    private static void searchFlightBetweenTwoAirports(String[] args)
+    {
+
+    }
+
+    public static void main(String[] args)
+    {
+        if(args.length < 5)
+        {
+            error("Not enough arguments provided");
+            return;
+        }
+        //String firstArg = args[0];
+        switch (args.length)
+        {
+            case 5:
+                prettyPrintAirline(args);
+            case 14:
+                addFlightToServer(args);
+            case 8:
+                if(args[5].equals("-search"))
+                    searchFlightBetweenTwoAirports(args);
+
+        }
+    }
     private static void error( String message )
     {
         PrintStream err = System.err;

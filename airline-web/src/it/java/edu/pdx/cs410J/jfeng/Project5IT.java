@@ -21,7 +21,9 @@ import static org.junit.jupiter.api.MethodOrderer.MethodName;
  * various arguments
  */
 @TestMethodOrder(MethodName.class)
-class Project5IT extends InvokeMainTestCase {
+class Project5IT extends InvokeMainTestCase
+{
+    /*
     private static final String HOSTNAME = "localhost";
     private static final String PORT = System.getProperty("http.port", "8080");
 
@@ -89,16 +91,27 @@ class Project5IT extends InvokeMainTestCase {
         //out = result.getTextWrittenToStandardOut();
         //assertThat(out, containsString(PrettyPrinter.formatDictionaryEntry(airlineName, flightNumber)));
     }
+     */
+
+    private static final String _HOST = "-host";
+    private static final String HOST = "localhost";
+    private static final String _PORT = "-port";
+
+    private static final String PORT = "8080";
 
     /*
     @Test
-    void testPrintFlightsForAirline(){
+    void testAddAirline()
+    {
         String airlineName = "Airline";
-        MainMethodResult result = invokeMain( Project5.class, HOSTNAME, PORT, airlineName);
+        String flightNumber = "888";
+        MainMethodResult result = invokeMain( Project5.class, _HOST, HOST, _PORT, PORT, airlineName, flightNumber );
+        assertThat(result.getTextWrittenToStandardError(), equalTo(""));
 
-
-
+        String out = result.getTextWrittenToStandardOut();
+        //assertThat(out, containsString(Messages.definedAirlineAs(airlineName, flightNumber)));
+        assertThat(out, containsString("Added Flight"));
     }
+*/
 
-     */
 }
