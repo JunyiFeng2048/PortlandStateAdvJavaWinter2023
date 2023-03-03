@@ -38,13 +38,22 @@ public class AirlineRestClient
     }
 
 
-    public Airline getAirline(String airlineName) throws IOException, ParserException {
+    public String getAirline(String airlineName) throws IOException, ParserException {
+        /*
+        //System.out.println(get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName)));
         Response response = get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName));
         //throwExceptionIfNotOkayHttpStatus(response);
         String content = response.getContent();
 
+
         TextParser parser = new TextParser(new StringReader(content));
         return parser.parse();
+        */
+        Response response = get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName));
+        //System.out.println(response.getContent());
+
+        return response.getContent();
+
     }
 
     /*
@@ -87,22 +96,32 @@ public class AirlineRestClient
     }
      */
 
+    /*
     public Response get(Map<String, String> parameters) throws IOException {
         StringBuilder query = encodeParameters(parameters);
         if (query.length() > 0) {
             query.insert(0, '?');
         }
-
         URL url = new URL(urlString + query);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setDoOutput(true);
         conn.setDoInput(true);
-
         return new Response(conn);
-
     }
-
+*/
+    public Response get(Map<String, String> parameters) throws IOException {
+        StringBuilder query = encodeParameters(parameters);
+        if (query.length() > 0) {
+            query.insert(0, '?');
+        }
+        URL url = new URL(urlString + query);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setDoOutput(true);
+        conn.setDoInput(true);
+        return new Response(conn);
+    }
     /**
      * Performs an HTTP POST
      *
