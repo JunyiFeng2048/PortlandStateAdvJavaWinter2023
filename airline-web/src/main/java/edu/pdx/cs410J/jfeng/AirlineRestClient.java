@@ -24,7 +24,6 @@ public class AirlineRestClient
     private static final String WEB_APP = "airline";
     private static final String SERVLET = "flights";
 
-
     private final String urlString;
 
     /**
@@ -135,7 +134,6 @@ public class AirlineRestClient
      */
 
     public Response post(Map<String, String> parameters) throws IOException {
-        System.out.println(parameters);
         return sendEncodedRequest(urlString, "POST", parameters);
     }
 

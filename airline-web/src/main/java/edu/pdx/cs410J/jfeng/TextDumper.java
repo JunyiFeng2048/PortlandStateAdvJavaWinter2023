@@ -11,18 +11,29 @@ public class TextDumper {
     this.writer = writer;
   }
 
-  public void dump(Airline airline) {
+  public void dump(Airline airline, String src, String dest) {
     try (
             PrintWriter pw = new PrintWriter(this.writer)
     ){
       String airlineName = airline.getName();
       for (Flight flight : airline.getFlights())
       {
-        pw.println(airlineName + ": " + flight.getFlightNumber() + " " +
-                flight.getSourceCode() + " " + flight.getDepartDate() + " " +
-                flight.getDepartTime() + " " + flight.getDepartPeriod() + " " +
-                flight.getDestinationCode() + " " + flight.getArrivalDate() + " " +
-                flight.getArrivalTime() + " " + flight.getArrivalPeriod());
+        if(src == null && dest == null)
+        {
+          pw.println(airlineName + ": " + flight.getFlightNumber() + " " +
+                  flight.getSourceCode() + " " + flight.getDepartDate() + " " +
+                  flight.getDepartTime() + " " + flight.getDepartPeriod() + " " +
+                  flight.getDestinationCode() + " " + flight.getArrivalDate() + " " +
+                  flight.getArrivalTime() + " " + flight.getArrivalPeriod());
+        }
+        else if (src != null && dest != null && src.equals(flight.getSourceCode()) && dest.equals(flight.getDestinationCode()))
+        {
+          pw.println(airlineName + ": " + flight.getFlightNumber() + " " +
+                  flight.getSourceCode() + " " + flight.getDepartDate() + " " +
+                  flight.getDepartTime() + " " + flight.getDepartPeriod() + " " +
+                  flight.getDestinationCode() + " " + flight.getArrivalDate() + " " +
+                  flight.getArrivalTime() + " " + flight.getArrivalPeriod());
+        }
       }
       pw.flush();
     }

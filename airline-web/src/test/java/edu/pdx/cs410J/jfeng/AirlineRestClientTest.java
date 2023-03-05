@@ -40,11 +40,13 @@ public class AirlineRestClientTest {
   }
 
    */
-
+/*
   private Response airlineAsText(Airline airline) {
     StringWriter writer = new StringWriter();
     new TextDumper(writer).dump(airline);
 
     return new Response(writer.toString());
   }
+
+ */
 }

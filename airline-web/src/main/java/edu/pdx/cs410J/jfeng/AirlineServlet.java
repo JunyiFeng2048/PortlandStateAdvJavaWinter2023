@@ -32,11 +32,11 @@ public class AirlineServlet extends HttpServlet {
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
         response.setContentType( "text/plain" );
-
-        String word = getParameter(AIRLINE_NAME_PARAMETER, request );
-        if (word != null) {
-            writeDefinition(word, response);
-
+        String airline = getParameter(AIRLINE_NAME_PARAMETER, request );
+        String src = getParameter("src", request );
+        String dest = getParameter("dest", request );
+        if (airline != null) {
+            writeDefinition(airline, src, dest, response);
         } else {
             writeAllDictionaryEntries(response);
         }
@@ -131,7 +131,7 @@ public class AirlineServlet extends HttpServlet {
      *
      * The text of the message is formatted with {@link TextDumper}
      */
-    private void writeDefinition(String airlineName, HttpServletResponse response) throws IOException
+    private void writeDefinition(String airlineName, String src, String dest, HttpServletResponse response) throws IOException
     {
         Airline airline = this.airlines.get(airlineName);
 
@@ -140,7 +140,7 @@ public class AirlineServlet extends HttpServlet {
         } else {
             PrintWriter pw = response.getWriter();
             TextDumper dumper = new TextDumper(pw);
-            dumper.dump(airline);
+            dumper.dump(airline, src, dest);
             pw.flush();
 
             response.setStatus(HttpServletResponse.SC_OK);
