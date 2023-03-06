@@ -2,9 +2,7 @@ package edu.pdx.cs410J.jfeng;
 
 import edu.pdx.cs410J.ParserException;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.StringWriter;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -16,83 +14,23 @@ public class Project5
 {
     public static final String MISSING_ARGS = "Missing command line arguments";
 
-    /*
-    public static void main(String... args)
+    private static boolean getREADME()
     {
-        String hostName = null;
-        String portString = null;
-        String airlineName = null;
-        String flightNumberAsString = null;
-
-        for (String arg : args)
+        try (
+                InputStream readme = Project5.class.getResourceAsStream("README.txt")
+        )
         {
-            if (hostName == null)
-            {
-                hostName = arg;
-            }
-            else if ( portString == null)
-            {
-                portString = arg;
-            }
-            else if (airlineName == null)
-            {
-                airlineName = arg;
-            }
-            else if (flightNumberAsString == null)
-            {
-                flightNumberAsString = arg;
-            }
-            else
-            {
-                usage("Extraneous command line argument: " + arg);
-            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
+            String s;
+            while ((s=reader.readLine()) != null)
+                System.out.println(s);
+
+        } catch (IOException e) {
+            System.err.printf("README.txt does not exist");
+            return false;
         }
-        if (hostName == null)
-        {
-            usage( MISSING_ARGS );
-            return;
-        }
-        else if ( portString == null)
-        {
-            usage( "Missing port" );
-            return;
-        }
-
-        int port;
-        try {
-            port = Integer.parseInt( portString );
-        } catch (NumberFormatException ex) {
-            usage("Port \"" + portString + "\" must be an integer");
-            return;
-        }
-
-        AirlineRestClient client = new AirlineRestClient(hostName, port);
-
-        try {
-            if (airlineName == null)
-            {
-                error("Airline name required");
-            }
-            else if (flightNumberAsString == null)
-            {
-                // Pretty Print the entire airline
-                Airline airline = client.getAirline(airlineName);
-                System.out.println(airline.toString());
-
-            }
-            else
-            {
-                client.addFlight(airlineName, flightNumberAsString);
-                System.out.println("added");
-            }
-
-        } catch (IOException | ParserException ex ) {
-            error("While contacting server: " + ex.getMessage());
-            return;
-        }
-
+        return true;
     }
-    */
     private static void addFlightToServer(String[] args)
     {
         Validatior validatior = new Validatior();
@@ -220,6 +158,7 @@ public class Project5
             else if (destinationCode == null)
                 destinationCode = arg;
         }
+
         AirlineRestClient client = new AirlineRestClient(hostName, Integer.parseInt(portString));
         String flights = client.getAirline(airlineName);
         String[] flightsArray = flights.split("\n");
@@ -242,15 +181,99 @@ public class Project5
         }
     }
 
+    private static void prettyPrintAndAddFlight(String[] args)
+    {
+        Validatior validatior = new Validatior();
+        String hostCommand = null;
+        String hostName = null;
+        String portCommand = null;
+        String portString = null;
+        String printCommand = null;
+        String airlineName = null;
+        String flightNumberAsString = null;
+        String sourceCode = null;
+        String departDate = null;
+        String departTime = null;
+        String departPeriod = null;
+        String destinationCode = null;
+        String arrivalDate = null;
+        String arrivalTime = null;
+        String arrivalPeriod = null;
+
+        for (String arg : args)
+        {
+            if (hostCommand == null)
+                hostCommand = arg;
+            else if (hostName == null)
+                hostName = arg;
+            else if (portCommand == null)
+                portCommand = arg;
+            else if (portString == null)
+                portString = arg;
+            else if (printCommand == null)
+                printCommand = arg;
+            else if (airlineName == null)
+                airlineName = arg;
+            else if (flightNumberAsString == null)
+                flightNumberAsString = arg;
+            else if (sourceCode == null)
+                sourceCode = arg;
+            else if (departDate == null)
+                departDate = arg;
+            else if (departTime == null)
+                departTime = arg;
+            else if (departPeriod == null)
+                departPeriod = arg;
+            else if (destinationCode == null)
+                destinationCode = arg;
+            else if (arrivalDate == null)
+                arrivalDate = arg;
+            else if (arrivalTime == null)
+                arrivalTime = arg;
+            else if (arrivalPeriod == null)
+                arrivalPeriod = arg;
+        }
+        String[] infoArgs = Arrays.copyOfRange(args, 5, args.length);
+
+        if(!validatior.validation(infoArgs) || !validatior.isValidPort(portString))
+            return;
+
+        AirlineRestClient client = new AirlineRestClient(hostName, Integer.parseInt(portString));
+        try {
+            client.addFlight(infoArgs);
+            System.out.println("Added Flight " + flightNumberAsString + " to " + airlineName);
+        } catch (IOException e ) {
+            error("While contacting server: " + e.getMessage());
+        }
+        System.out.println("Airline: " + airlineName);
+        System.out.println("\tFlight Number: " + flightNumberAsString);
+        System.out.println("\tDeparture: ");
+        System.out.println("\t\tSource: " + sourceCode);
+        System.out.println("\t\tDepart Date: " + departDate);
+        System.out.println("\t\tDepart Time: " + departTime + departPeriod);
+        System.out.println("\tArrival: ");
+        System.out.println("\t\tDestination: " + destinationCode);
+        System.out.println("\t\tArrival Date: " + arrivalDate);
+        System.out.println("\t\tArrival Time: " + arrivalTime + arrivalPeriod);
+        System.out.println();
+    }
+
     public static void main(String[] args) throws ParserException, IOException {
         if(args.length < 5)
         {
             error("Not enough arguments provided");
             return;
         }
-        //String firstArg = args[0];
+        if(args[4].equals("-README"))
+        {
+            getREADME();
+            return;
+        }
         switch (args.length)
         {
+            case 15:
+                prettyPrintAndAddFlight(args);
+                break;
             case 14:
                 addFlightToServer(args);
                 break;
@@ -258,11 +281,17 @@ public class Project5
                 if(args[4].equals("-search"))
                     searchFlightBetweenTwoAirports(args);
                 break;
-            case 5:
-                prettyPrintAirline(args);
+            case 6:
+                if(args[4].equals("-search"))
+                {
+                    args[4] = args[5];
+                    prettyPrintAirline(args);
+                }
                 break;
-
+            default:
+                error("Invalid arguments");
         }
+
     }
     private static void error( String message )
     {
