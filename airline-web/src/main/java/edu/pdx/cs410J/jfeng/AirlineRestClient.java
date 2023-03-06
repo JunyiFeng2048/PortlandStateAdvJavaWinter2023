@@ -38,30 +38,15 @@ public class AirlineRestClient
 
 
     public String getAirline(String airlineName) throws IOException, ParserException {
-        /*
-        //System.out.println(get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName)));
-        Response response = get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName));
-        //throwExceptionIfNotOkayHttpStatus(response);
-        String content = response.getContent();
-
-
-        TextParser parser = new TextParser(new StringReader(content));
-        return parser.parse();
-        */
-        Response response = get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName));
-        //System.out.println(response.getContent());
-
-        return response.getContent();
+        try{
+            Response response = get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName));
+            return response.getContent();
+        }catch (Exception e)
+        {
+            return null;
+        }
 
     }
-
-    /*
-    public void addFlight(String word, String definition) throws IOException {
-        Response response = post(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, word,
-                AirlineServlet.FLIGHT_NUMBER_PARAMETER, definition));
-        //throwExceptionIfNotOkayHttpStatus(response);
-    }
-    */
 
     public void addFlight(String[] info) throws IOException
     {
@@ -76,14 +61,16 @@ public class AirlineRestClient
 
         Response response = post(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName,
                 AirlineServlet.FLIGHT_DETAIL_PARAMETER, flightDetail));
-        //throwExceptionIfNotOkayHttpStatus(response);
     }
 
+    /*
     public void removeAllAirlines() throws IOException {
         Response response = delete(Map.of());
         //throwExceptionIfNotOkayHttpStatus(response);
     }
 
+
+     */
     /*
     private void throwExceptionIfNotOkayHttpStatus(Response response)
     {
@@ -110,16 +97,22 @@ public class AirlineRestClient
     }
 */
     public Response get(Map<String, String> parameters) throws IOException {
-        StringBuilder query = encodeParameters(parameters);
-        if (query.length() > 0) {
-            query.insert(0, '?');
+        try {
+
+            StringBuilder query = encodeParameters(parameters);
+            if (query.length() > 0) {
+                query.insert(0, '?');
+            }
+            URL url = new URL(urlString + query);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            return new Response(conn);
+        }catch (Exception e)
+        {
+            return null;
         }
-        URL url = new URL(urlString + query);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setDoOutput(true);
-        conn.setDoInput(true);
-        return new Response(conn);
     }
     /**
      * Performs an HTTP POST
@@ -134,7 +127,12 @@ public class AirlineRestClient
      */
 
     public Response post(Map<String, String> parameters) throws IOException {
-        return sendEncodedRequest(urlString, "POST", parameters);
+        try {
+            return sendEncodedRequest(urlString, "POST", parameters);
+        }catch (Exception e)
+        {
+            return null;
+        }
     }
 
     /**
@@ -143,10 +141,11 @@ public class AirlineRestClient
      * @param parameters The key/value parameters
      * @return A <code>Response</code> summarizing the result of the POST
      */
+    /*
     public Response delete(Map<String, String> parameters) throws IOException {
         return sendEncodedRequest(urlString, "DELETE", parameters);
     }
-
+*/
     private Response sendEncodedRequest(String urlString, String requestMethod, Map<String, String> parameters) throws IOException {
         StringBuilder data = encodeParameters(parameters);
 
@@ -192,6 +191,7 @@ public class AirlineRestClient
      * @param parameters key/value parameters to the put
      * @return A <code>Response</code> summarizing the result of the PUT
      */
+    /*
     public Response put(Map<String, String> parameters) throws IOException {
         StringBuilder data = new StringBuilder();
         parameters.forEach((key, value) -> {
@@ -218,6 +218,8 @@ public class AirlineRestClient
 
         return response;
     }
+
+     */
 
 
 

@@ -28,12 +28,13 @@ class AirlineRestClientIT {
     return new AirlineRestClient(HOSTNAME, port);
   }
 
+  /*
   @Test
   void test0RemoveAllAirlines() throws IOException {
     AirlineRestClient client = newAirlineRestClient();
     client.removeAllAirlines();
   }
-
+*/
   /*
   @Test
   void test2CreateFirstFlight() throws IOException, ParserException {

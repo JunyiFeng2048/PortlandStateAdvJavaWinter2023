@@ -99,19 +99,19 @@ class Project5IT extends InvokeMainTestCase
 
     private static final String PORT = "8080";
 
-    /*
+
+
     @Test
-    void testAddAirline()
+    void testNoEnoughArgs()
     {
         String airlineName = "Airline";
-        String flightNumber = "888";
-        MainMethodResult result = invokeMain( Project5.class, _HOST, HOST, _PORT, PORT, airlineName, flightNumber );
-        assertThat(result.getTextWrittenToStandardError(), equalTo(""));
+        MainMethodResult result = invokeMain( Project5.class, _HOST, HOST, _PORT, PORT);
+        assertThat(result.getTextWrittenToStandardError(), containsString("** Not enough arguments provided"));
 
-        String out = result.getTextWrittenToStandardOut();
+        //String out = result.getTextWrittenToStandardOut();
         //assertThat(out, containsString(Messages.definedAirlineAs(airlineName, flightNumber)));
-        assertThat(out, containsString("Added Flight"));
+        //assertThat(out, containsString("Added Flight"));
     }
-*/
+
 
 }

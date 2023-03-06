@@ -37,7 +37,7 @@ class AirlineServletTest {
     verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
   }
 
-  /*
+
   @Test
   void addFlightInNewAirline() throws IOException {
     AirlineServlet servlet = new AirlineServlet();
@@ -45,10 +45,22 @@ class AirlineServletTest {
     String airlineName = "Airline";
     int flightNumber = 123;
     String flightNumberAsString = String.valueOf(flightNumber);
+    String sourceCode = "PDX";
+    String departDate = "11/11/2011";
+    String departTime = "11:11";
+    String departPeriod = "am";
+    String destinationCode = "ABE";
+    String arrivalDate = "11/11/2111";
+    String arrivalTime = "11:11";
+    String arrivalPeriod = "pm";
+    String flightDetail = "";
+    flightDetail = flightNumberAsString + " " + sourceCode + " " +
+            departDate + " " + departTime + " " + departPeriod + " " + destinationCode + " " +
+            arrivalDate + " " + arrivalTime + " " + arrivalPeriod;
 
     HttpServletRequest request = mock(HttpServletRequest.class);
     when(request.getParameter(AirlineServlet.AIRLINE_NAME_PARAMETER)).thenReturn(airlineName);
-    when(request.getParameter(AirlineServlet.FLIGHT_NUMBER_PARAMETER)).thenReturn(flightNumberAsString);
+    when(request.getParameter(AirlineServlet.FLIGHT_DETAIL_PARAMETER)).thenReturn(flightDetail);
 
     HttpServletResponse response = mock(HttpServletResponse.class);
 
@@ -74,7 +86,37 @@ class AirlineServletTest {
     assertThat(airline.getName(), equalTo(airlineName));
 
     Flight flight = airline.getFlights().iterator().next();
-    assertThat(flight.getNumber(), equalTo(flightNumber));
+    assertThat(flight.getFlightNumber(), equalTo(flightNumber));
   }
-*/
+
+  @Test
+  void testMissingRequiredParameter() throws IOException {
+    AirlineServlet servlet = new AirlineServlet();
+
+    String airlineName = null;
+    int flightNumber = 123;
+    String flightNumberAsString = String.valueOf(flightNumber);
+
+    String flightDetail = null;
+
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getParameter(AirlineServlet.AIRLINE_NAME_PARAMETER)).thenReturn(airlineName);
+    when(request.getParameter(AirlineServlet.FLIGHT_DETAIL_PARAMETER)).thenReturn(flightDetail);
+
+    HttpServletResponse response = mock(HttpServletResponse.class);
+
+    // Use a StringWriter to gather the text from multiple calls to println()
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter pw = new PrintWriter(stringWriter, true);
+
+    when(response.getWriter()).thenReturn(pw);
+
+    servlet.doPost(request, response);
+
+    //String xml = stringWriter.toString();
+
+
+  }
+
+
 }

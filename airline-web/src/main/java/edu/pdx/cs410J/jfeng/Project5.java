@@ -14,7 +14,7 @@ public class Project5
 {
     public static final String MISSING_ARGS = "Missing command line arguments";
 
-    private static boolean getREADME()
+    public static boolean getREADME()
     {
         try (
                 InputStream readme = Project5.class.getResourceAsStream("README.txt")
@@ -31,7 +31,7 @@ public class Project5
         }
         return true;
     }
-    private static void addFlightToServer(String[] args)
+    public static void addFlightToServer(String[] args)
     {
         Validatior validatior = new Validatior();
         String hostCommand = null;
@@ -94,79 +94,31 @@ public class Project5
         }
     }
 
-    private static void prettyPrintAirline(String[] args) throws ParserException, IOException {
-        String hostCommand = null;
-        String hostName = null;
-        String portCommand = null;
-        String portString = null;
-        String airlineName = null;
-        for (String arg : args) {
-            if (hostCommand == null)
-                hostCommand = arg;
-            else if (hostName == null)
-                hostName = arg;
-            else if (portCommand == null)
-                portCommand = arg;
-            else if (portString == null)
-                portString = arg;
-            else if (airlineName == null)
-                airlineName = arg;
-        }
-        AirlineRestClient client = new AirlineRestClient(hostName, Integer.parseInt(portString));
-        String flights = client.getAirline(airlineName);
-        String[] flightsArray = flights.split("\n");
-        System.out.println("Airline: " + airlineName);
-        for (String flight: flightsArray) {
-            String[] detail = flight.split(" ");
-            System.out.println("\tFlight Number: " + detail[1]);
-            System.out.println("\tDeparture: ");
-            System.out.println("\t\tSource: " + detail[2]);
-            System.out.println("\t\tDepart Date: " + detail[3]);
-            System.out.println("\t\tDepart Time: " + detail[4] + detail[5]);
-            System.out.println("\tArrival: ");
-            System.out.println("\t\tDestination: " + detail[6]);
-            System.out.println("\t\tArrival Date: " + detail[7]);
-            System.out.println("\t\tArrival Time: " + detail[8] + detail[9]);
-            System.out.println();
-        }
-    }
-
-    private static void searchFlightBetweenTwoAirports(String[] args) throws ParserException, IOException {
-        String hostCommand = null;
-        String hostName = null;
-        String portCommand = null;
-        String portString = null;
-        String searchCommand = null;
-        String airlineName = null;
-        String sourceCode = null;
-        String destinationCode = null;
-        for (String arg : args) {
-            if (hostCommand == null)
-                hostCommand = arg;
-            else if (hostName == null)
-                hostName = arg;
-            else if (portCommand == null)
-                portCommand = arg;
-            else if (portString == null)
-                portString = arg;
-            else if (searchCommand == null)
-                searchCommand = arg;
-            else if (airlineName == null)
-                airlineName = arg;
-            else if (sourceCode == null)
-                sourceCode = arg;
-            else if (destinationCode == null)
-                destinationCode = arg;
-        }
-
-        AirlineRestClient client = new AirlineRestClient(hostName, Integer.parseInt(portString));
-        String flights = client.getAirline(airlineName);
-        String[] flightsArray = flights.split("\n");
-        System.out.println("Airline: " + airlineName);
-        for (String flight: flightsArray) {
-            String[] detail = flight.split(" ");
-            //System.out.println(detail[2] + " " + sourceCode + " "+ detail[6] + " " + destinationCode);
-            if(detail[2].equals(sourceCode) && detail[6].equals(destinationCode)){
+    public static Boolean prettyPrintAirline(String[] args) throws ParserException, IOException {
+        try {
+            String hostCommand = null;
+            String hostName = null;
+            String portCommand = null;
+            String portString = null;
+            String airlineName = null;
+            for (String arg : args) {
+                if (hostCommand == null)
+                    hostCommand = arg;
+                else if (hostName == null)
+                    hostName = arg;
+                else if (portCommand == null)
+                    portCommand = arg;
+                else if (portString == null)
+                    portString = arg;
+                else if (airlineName == null)
+                    airlineName = arg;
+            }
+            AirlineRestClient client = new AirlineRestClient(hostName, Integer.parseInt(portString));
+            String flights = client.getAirline(airlineName);
+            String[] flightsArray = flights.split("\n");
+            System.out.println("Airline: " + airlineName);
+            for (String flight : flightsArray) {
+                String[] detail = flight.split(" ");
                 System.out.println("\tFlight Number: " + detail[1]);
                 System.out.println("\tDeparture: ");
                 System.out.println("\t\tSource: " + detail[2]);
@@ -178,10 +130,72 @@ public class Project5
                 System.out.println("\t\tArrival Time: " + detail[8] + detail[9]);
                 System.out.println();
             }
+        }catch (Exception e)
+        {
+            System.err.println("Error");
+            return false;
         }
+        return true;
     }
 
-    private static void prettyPrintAndAddFlight(String[] args)
+    public static boolean searchFlightBetweenTwoAirports(String[] args) throws ParserException, IOException {
+        try {
+            String hostCommand = null;
+            String hostName = null;
+            String portCommand = null;
+            String portString = null;
+            String searchCommand = null;
+            String airlineName = null;
+            String sourceCode = null;
+            String destinationCode = null;
+            for (String arg : args) {
+                if (hostCommand == null)
+                    hostCommand = arg;
+                else if (hostName == null)
+                    hostName = arg;
+                else if (portCommand == null)
+                    portCommand = arg;
+                else if (portString == null)
+                    portString = arg;
+                else if (searchCommand == null)
+                    searchCommand = arg;
+                else if (airlineName == null)
+                    airlineName = arg;
+                else if (sourceCode == null)
+                    sourceCode = arg;
+                else if (destinationCode == null)
+                    destinationCode = arg;
+            }
+
+            AirlineRestClient client = new AirlineRestClient(hostName, Integer.parseInt(portString));
+            String flights = client.getAirline(airlineName);
+            String[] flightsArray = flights.split("\n");
+            System.out.println("Airline: " + airlineName);
+            for (String flight : flightsArray) {
+                String[] detail = flight.split(" ");
+                //System.out.println(detail[2] + " " + sourceCode + " "+ detail[6] + " " + destinationCode);
+                if (detail[2].equals(sourceCode) && detail[6].equals(destinationCode)) {
+                    System.out.println("\tFlight Number: " + detail[1]);
+                    System.out.println("\tDeparture: ");
+                    System.out.println("\t\tSource: " + detail[2]);
+                    System.out.println("\t\tDepart Date: " + detail[3]);
+                    System.out.println("\t\tDepart Time: " + detail[4] + detail[5]);
+                    System.out.println("\tArrival: ");
+                    System.out.println("\t\tDestination: " + detail[6]);
+                    System.out.println("\t\tArrival Date: " + detail[7]);
+                    System.out.println("\t\tArrival Time: " + detail[8] + detail[9]);
+                    System.out.println();
+                }
+            }
+        }catch (Exception e)
+        {
+            System.err.println("Error");
+            return false;
+        }
+        return true;
+    }
+
+    public static void prettyPrintAndAddFlight(String[] args)
     {
         Validatior validatior = new Validatior();
         String hostCommand = null;
@@ -303,7 +317,8 @@ public class Project5
      * Prints usage information for this program and exits
      * @param message An error message to print
      */
-    private static void usage( String message )
+    /*
+    public static void usage( String message )
     {
         PrintStream err = System.err;
         err.println("** " + message);
@@ -321,4 +336,6 @@ public class Project5
         err.println("If no word is specified, all dictionary entries are printed");
         err.println();
     }
+
+     */
 }

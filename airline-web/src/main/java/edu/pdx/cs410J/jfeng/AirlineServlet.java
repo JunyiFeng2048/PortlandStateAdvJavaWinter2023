@@ -36,7 +36,7 @@ public class AirlineServlet extends HttpServlet {
         String src = getParameter("src", request );
         String dest = getParameter("dest", request );
         if (airline != null) {
-            writeDefinition(airline, src, dest, response);
+            writeAirline(airline, src, dest, response);
         } else {
             writeAllDictionaryEntries(response);
         }
@@ -101,6 +101,7 @@ public class AirlineServlet extends HttpServlet {
      * behavior is exposed for testing purposes only.  It's probably not
      * something that you'd want a real application to expose.
      */
+    /*
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
@@ -109,12 +110,12 @@ public class AirlineServlet extends HttpServlet {
         this.airlines.clear();
 
         PrintWriter pw = response.getWriter();
-        pw.println(Messages.allDictionaryEntriesDeleted());
+        //pw.println(Messages.allDictionaryEntriesDeleted());
         pw.flush();
 
         response.setStatus(HttpServletResponse.SC_OK);
     }
-
+*/
     /**
      * Writes an error message about a missing parameter to the HTTP response.
      *
@@ -131,7 +132,7 @@ public class AirlineServlet extends HttpServlet {
      *
      * The text of the message is formatted with {@link TextDumper}
      */
-    private void writeDefinition(String airlineName, String src, String dest, HttpServletResponse response) throws IOException
+    private void writeAirline(String airlineName, String src, String dest, HttpServletResponse response) throws IOException
     {
         Airline airline = this.airlines.get(airlineName);
 

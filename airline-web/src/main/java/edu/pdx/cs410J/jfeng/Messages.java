@@ -11,13 +11,16 @@ public class Messages
         return String.format("The required parameter \"%s\" is missing", parameterName);
     }
 
-    public static String definedAirlineAs(String word, String definition )
+    public static String definedAirlineAs(String airline, String airlineName )
     {
-        return String.format( "Defined %s as %s", word, definition );
+        return String.format( "Defined %s as %s", airline, airlineName );
     }
 
+    /*
     public static String allDictionaryEntriesDeleted() {
         return "All dictionary entries have been deleted";
     }
+
+     */
 
 }
