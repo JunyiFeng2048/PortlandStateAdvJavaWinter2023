@@ -137,6 +137,10 @@ public class AirlineServlet extends HttpServlet {
         Airline airline = this.airlines.get(airlineName);
 
         if (airline == null) {
+            PrintWriter pw = response.getWriter();
+            TextDumper dumper = new TextDumper(pw);
+            dumper.dumpNotFound();
+            pw.flush();
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } else {
             PrintWriter pw = response.getWriter();

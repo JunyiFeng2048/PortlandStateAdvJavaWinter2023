@@ -38,4 +38,14 @@ public class TextDumper {
       pw.flush();
     }
   }
+
+  public void dumpNotFound() {
+
+      PrintWriter pw = new PrintWriter(this.writer);
+
+      pw.println("Airline Not Found");
+
+      pw.flush();
+  }
+
 }
