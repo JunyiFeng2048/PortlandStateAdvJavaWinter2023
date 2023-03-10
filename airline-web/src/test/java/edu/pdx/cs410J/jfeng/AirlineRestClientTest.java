@@ -75,5 +75,19 @@ public class AirlineRestClientTest {
             AirlineServlet.FLIGHT_DETAIL_PARAMETER, "flightDetail")));
   }
 
+  @Test
+  void testSendEncodedRequest() throws IOException {
+    AirlineRestClient client = new AirlineRestClient(HOST, PORT);
+    client.sendEncodedRequest("https://www.google.com", "POST", Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, "airlineName",
+            AirlineServlet.FLIGHT_DETAIL_PARAMETER, "flightDetail"));
+  }
+
+  @Test
+  void testEncodeParameters() throws IOException {
+    AirlineRestClient client = new AirlineRestClient(HOST, PORT);
+    client.encodeParameters(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, "airlineName",
+            AirlineServlet.FLIGHT_DETAIL_PARAMETER, "flightDetail"));
+  }
+
 
 }

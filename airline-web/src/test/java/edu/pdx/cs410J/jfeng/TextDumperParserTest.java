@@ -125,6 +125,12 @@ public class TextDumperParserTest {
         dumper.dump(airline,sourceCode,destinationCode);
     }
 
+    @Test
+    void testDumpNotFound(){
+        StringWriter sw = new StringWriter();
+        TextDumper dumper = new TextDumper(sw);
+        dumper.dumpNotFound();
+    }
 
 
 }

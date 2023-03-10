@@ -146,7 +146,7 @@ public class AirlineRestClient
         return sendEncodedRequest(urlString, "DELETE", parameters);
     }
 */
-    private Response sendEncodedRequest(String urlString, String requestMethod, Map<String, String> parameters) throws IOException {
+    public Response sendEncodedRequest(String urlString, String requestMethod, Map<String, String> parameters) throws IOException {
         StringBuilder data = encodeParameters(parameters);
 
         URL url = new URL(urlString);
@@ -169,7 +169,7 @@ public class AirlineRestClient
      * @param parameters The parameter key/value pairs
      * @return The encoded parameters
      */
-    private StringBuilder encodeParameters(Map<String, String> parameters) {
+    public StringBuilder encodeParameters(Map<String, String> parameters) {
         StringBuilder query = new StringBuilder();
         for (Iterator<Map.Entry<String, String>> iter = parameters.entrySet().iterator(); iter.hasNext(); ) {
             Map.Entry<String, String> pair = iter.next();

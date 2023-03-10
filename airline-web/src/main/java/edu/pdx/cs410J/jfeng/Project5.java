@@ -372,6 +372,11 @@ public class Project5
                     args[4] = args[5];
                     prettyPrintAirline(args);
                 }
+                else if(args[0].equals("-search"))
+                {
+                    String[] argsArr = Arrays.copyOfRange(args, 1, args.length);
+                    prettyPrintAirline(argsArr);
+                }
                 break;
             default:
                 error("Invalid arguments");

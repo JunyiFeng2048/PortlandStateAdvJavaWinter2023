@@ -61,6 +61,14 @@ public class FlightTest {
 
         }
 
+        @Test
+        void testSetDuration(){
+            Flight flight = new Flight();
+            flight.setDuration("20");
+            assertTrue(flight.getDuration().equals("20"));
+
+        }
+
 
 }
 

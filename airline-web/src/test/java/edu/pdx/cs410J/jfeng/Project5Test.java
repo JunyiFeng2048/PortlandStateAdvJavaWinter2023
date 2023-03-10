@@ -39,8 +39,21 @@ public class Project5Test {
     }
 
     @Test
+    void testSearchFlightBetweenTwoAirports2() throws ParserException, IOException {
+        String[] args = {"-search", "-host", "localhost", "-port", "12345",
+                "AirDave", "PDX", "ORD"};
+        assertFalse(project5.searchFlightBetweenTwoAirports0(args));
+    }
+
+    @Test
     void testSearchFlight() throws ParserException, IOException {
         String[] args = {"-host", "localhost", "-port", "12345", "-search", "AirDave"};
+        assertFalse(project5.prettyPrintAirline(args));
+    }
+
+    @Test
+    void testSearchFlight2() throws ParserException, IOException {
+        String[] args = {"-search", "-host", "localhost", "-port", "12345", "AirDave"};
         assertFalse(project5.prettyPrintAirline(args));
     }
 
@@ -49,6 +62,11 @@ public class Project5Test {
         String[] args = {"-host", "localhost", "-port", "12345", "-pretty",
                 "AirDave", "123", "PDX", "07/19/2023", "1:02", "pm", "ORD", "07/19/2023", "6:22", "pm"};
         project5.prettyPrintAndAddFlight(args);
+    }
+
+    @Test
+    void testUsage(){
+        project5.usage("OK");
     }
 
 
