@@ -195,6 +195,63 @@ public class Project5
         return true;
     }
 
+    public static boolean searchFlightBetweenTwoAirports0(String[] args) throws ParserException, IOException {
+        try {
+            String hostCommand = null;
+            String hostName = null;
+            String portCommand = null;
+            String portString = null;
+            String searchCommand = null;
+            String airlineName = null;
+            String sourceCode = null;
+            String destinationCode = null;
+            for (String arg : args) {
+                if (searchCommand == null)
+                    searchCommand = arg;
+                else if (hostCommand == null)
+                    hostCommand = arg;
+                else if (hostName == null)
+                    hostName = arg;
+                else if (portCommand == null)
+                    portCommand = arg;
+                else if (portString == null)
+                    portString = arg;
+                else if (airlineName == null)
+                    airlineName = arg;
+                else if (sourceCode == null)
+                    sourceCode = arg;
+                else if (destinationCode == null)
+                    destinationCode = arg;
+            }
+
+            AirlineRestClient client = new AirlineRestClient(hostName, Integer.parseInt(portString));
+            String flights = client.getAirline(airlineName);
+            String[] flightsArray = flights.split("\n");
+            System.out.println("Airline: " + airlineName);
+            for (String flight : flightsArray) {
+                String[] detail = flight.split(" ");
+                //System.out.println(detail[2] + " " + sourceCode + " "+ detail[6] + " " + destinationCode);
+                if (detail[2].equals(sourceCode) && detail[6].equals(destinationCode)) {
+                    System.out.println("\tFlight Number: " + detail[1]);
+                    System.out.println("\tDeparture: ");
+                    System.out.println("\t\tSource: " + detail[2]);
+                    System.out.println("\t\tDepart Date: " + detail[3]);
+                    System.out.println("\t\tDepart Time: " + detail[4] + detail[5]);
+                    System.out.println("\tArrival: ");
+                    System.out.println("\t\tDestination: " + detail[6]);
+                    System.out.println("\t\tArrival Date: " + detail[7]);
+                    System.out.println("\t\tArrival Time: " + detail[8] + detail[9]);
+                    System.out.println();
+                }
+            }
+        }catch (Exception e)
+        {
+            System.err.println("Error");
+            return false;
+        }
+        return true;
+    }
+
     public static void prettyPrintAndAddFlight(String[] args)
     {
         Validatior validatior = new Validatior();
@@ -272,7 +329,19 @@ public class Project5
         System.out.println();
     }
 
+
+
     public static void main(String[] args) throws ParserException, IOException {
+        if(args.length == 0)
+        {
+            usage("Not enough arguments provided");
+            return;
+        }
+        if(args[0].equals("-README"))
+        {
+            getREADME();
+            return;
+        }
         if(args.length < 5)
         {
             error("Not enough arguments provided");
@@ -294,6 +363,8 @@ public class Project5
             case 8:
                 if(args[4].equals("-search"))
                     searchFlightBetweenTwoAirports(args);
+                else if(args[0].equals("-search"))
+                    searchFlightBetweenTwoAirports0(args);
                 break;
             case 6:
                 if(args[4].equals("-search"))
@@ -317,25 +388,20 @@ public class Project5
      * Prints usage information for this program and exits
      * @param message An error message to print
      */
-    /*
+
     public static void usage( String message )
     {
         PrintStream err = System.err;
         err.println("** " + message);
         err.println();
-        err.println("usage: java Project5 host port [word] [definition]");
+        err.println("usage: java Project5 host [host] port [port]");
         err.println("  host         Host of web server");
         err.println("  port         Port of web server");
-        err.println("  word         Word in dictionary");
-        err.println("  definition   Definition of word");
         err.println();
-        err.println("This simple program posts words and their definitions");
+        err.println("This simple program posts flights to their airline");
         err.println("to the server.");
-        err.println("If no definition is specified, then the word's definition");
-        err.println("is printed.");
-        err.println("If no word is specified, all dictionary entries are printed");
         err.println();
     }
 
-     */
+
 }
