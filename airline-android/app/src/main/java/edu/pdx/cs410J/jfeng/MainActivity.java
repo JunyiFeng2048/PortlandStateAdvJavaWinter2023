@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         List<Integer> sumsFromFile = null;
+        /*
         ListView listOfSums = findViewById(R.id.sums);
         try {
             sumsFromFile = readSumsFromFile();
@@ -44,8 +45,11 @@ public class MainActivity extends AppCompatActivity {
         }
         sums = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,sumsFromFile);
         listOfSums.setAdapter(sums);
+
+         */
     }
 
+    /*
     private List<Integer> readSumsFromFile() throws IOException {
         List<Integer> sums = new ArrayList<>();
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(getSumsFile()))){
@@ -61,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         //Toast.makeText(this, flight.toString(), Toast.LENGTH_LONG).show();
         startActivityForResult(new Intent(this, CalculatorActivity.class),GET_SUM);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode,resultCode,data);
@@ -100,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         return new File(dataDir,"sums.txt");
     }
 
-
+*/
 
 /*
     public void computeSum(View view) {
@@ -135,5 +140,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 */
+
+    public void launchHelp(View view) {
+        startActivity(new Intent(this, Help.class));
+    }
 
 }

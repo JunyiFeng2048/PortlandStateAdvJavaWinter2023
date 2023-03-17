@@ -5,4 +5,7 @@
     <string name="launch_calculator">Launch Calculator</string>
     <string name="return_to_main">Return to Main</string>
     <string name="sums">sums</string>
+    <string name="welcome">Welcome To Airline App</string>
+    <string name="addFlight">Add Flight</string>
+
 </resources>
