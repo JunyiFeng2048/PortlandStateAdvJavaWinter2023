@@ -2,4 +2,7 @@
     <string name="app_name">Airline</string>
     <string name="hello">Hello OK!</string>
     <string name="click">Click me</string>
+    <string name="launch_calculator">Launch Calculator</string>
+    <string name="return_to_main">Return to Main</string>
+    <string name="sums">sums</string>
 </resources>
