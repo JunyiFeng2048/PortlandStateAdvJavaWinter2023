@@ -145,4 +145,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, Help.class));
     }
 
+    public void launchAddFlight(View view) {
+        startActivity(new Intent(this, AddFlight.class));
+    }
+
 }
