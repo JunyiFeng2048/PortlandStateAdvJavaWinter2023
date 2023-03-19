@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +8,7 @@
     tools:context=".AddFlight">
 
     <Button
-        android:id="@+id/return_to_main"
+        android:id="@+id/return_to_main2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="returnToMain"
@@ -17,6 +18,304 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.831" />
+        app:layout_constraintVertical_bias="0.903" />
+
+    <Button
+        android:id="@+id/add_flight_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="addFlight"
+        android:text="Add Flight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.808" />
+
+    <LinearLayout
+        android:id="@+id/add_flight_table"
+        android:layout_width="320dp"
+        android:layout_height="421dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/add_flight_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.502">
+
+        <LinearLayout
+            android:id="@+id/row_airline"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/airline_name"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="Airline Name: " />
+
+            <EditText
+                android:id="@+id/airline_name_input"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_flight_number"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/flight_number"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="Flight Number: " />
+
+            <EditText
+                android:id="@+id/flight_number_input"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:gravity="right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_source_code"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/source_code"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="Departure Airport Code: " />
+
+            <EditText
+                android:id="@+id/source_code_input"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:maxLength="3"
+                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                android:inputType="textCapCharacters"
+                android:gravity="right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_departure_date"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/departure_date"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="Departure Date: " />
+
+            <EditText
+                android:id="@+id/departure_date_month"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="2" />
+
+            <TextView
+                android:id="@+id/departure_date_delimiter1"
+                android:layout_width="10dp"
+                android:layout_height="25dp"
+                android:text="/" />
+
+            <EditText
+                android:id="@+id/departure_date_day"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="2" />
+
+            <TextView
+                android:id="@+id/departure_date_delimiter2"
+                android:layout_width="10dp"
+                android:layout_height="25dp"
+                android:text="/" />
+
+            <EditText
+                android:id="@+id/departure_date_year"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="4" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_departure_time"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/departure_time"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="Departure Time: " />
+
+            <EditText
+                android:id="@+id/departure_time_hour"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="2" />
+
+            <TextView
+                android:id="@+id/departure_time_delimiter"
+                android:layout_width="10dp"
+                android:layout_height="25dp"
+                android:text=":" />
+
+            <EditText
+                android:id="@+id/departure_time_minute"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="2" />
+
+            <EditText
+                android:id="@+id/departure_time_period"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:digits="APM"
+                android:maxLength="2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_destination_code"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/destination_code"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="Arrival Airport Code: " />
+
+            <EditText
+                android:id="@+id/destination_code_input"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:maxLength="3"
+                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                android:inputType="textCapCharacters" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_arrival_date"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/arrival_date"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="Arrival Date: " />
+
+            <EditText
+                android:id="@+id/arrival_date_month"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="2" />
+
+            <TextView
+                android:id="@+id/arrival_date_delimiter1"
+                android:layout_width="10dp"
+                android:layout_height="25dp"
+                android:text="/" />
+
+            <EditText
+                android:id="@+id/arrival_date_day"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="2" />
+
+            <TextView
+                android:id="@+id/arrival_date_delimiter2"
+                android:layout_width="10dp"
+                android:layout_height="25dp"
+                android:text="/" />
+
+            <EditText
+                android:id="@+id/arrival_date_year"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="4" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_arrival_time"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/arrival_time"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="Arrival Time: " />
+
+            <EditText
+                android:id="@+id/arrival_time_hour"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="2" />
+
+            <TextView
+                android:id="@+id/arrival_time_delimiter"
+                android:layout_width="10dp"
+                android:layout_height="25dp"
+                android:text=":" />
+
+            <EditText
+                android:id="@+id/arrival_time_minute"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="2" />
+
+            <EditText
+                android:id="@+id/arrival_time_period"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:digits="APM"
+                android:maxLength="2" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

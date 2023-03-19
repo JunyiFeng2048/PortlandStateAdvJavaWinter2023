@@ -8,7 +8,7 @@
 
 
     <Button
-        android:id="@+id/return_to_main"
+        android:id="@+id/add_flight_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="returnToMain"
@@ -24,7 +24,7 @@
         android:id="@+id/README"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/return_to_main"
+        app:layout_constraintBottom_toTopOf="@+id/add_flight_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
