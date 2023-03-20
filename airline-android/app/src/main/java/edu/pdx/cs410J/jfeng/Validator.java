@@ -1,5 +1,6 @@
 package edu.pdx.cs410J.jfeng;
 
+import android.annotation.SuppressLint;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -10,7 +11,8 @@ import edu.pdx.cs410J.AirportNames;
 
 public class Validator {
 
-    static final String FLIGHT_NUMBER_ERROR = "Invalid Src or Dest Code";
+    static final String AIRLINE_NAME_ERROR = "Invalid Airline Name";
+    static final String FLIGHT_NUMBER_ERROR = "Invalid Flight Number";
     static final String SRC_DEST_ERROR = "Invalid Src or Dest Code";
     static final String DEPARTURE_ARRIVAL_ERROR = "Invalid Date or Time";
     static final String VALID = "valid";
@@ -21,6 +23,7 @@ public class Validator {
 
     public boolean isValidSrcAndDestCode(String str)
     {
+        str = str.toUpperCase();
         if(str.length() != 3)
         {
             return false;
@@ -56,27 +59,29 @@ public class Validator {
         }
         return true;
     }
+    public boolean isValidAirlineName(String airlineName)
+    {
+        if(airlineName == null || airlineName.equals(""))
+            return false;
+        return true;
+    }
+
 
     public boolean isValidDateAndTime(String[] dateAndTime)
     {
-        /*
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
-        boolean valid;
-        try {
-            sdf.parse(dateAndTime);
-            sdf.setLenient(false);
-            valid = true;
-        } catch (ParseException e) {
-            System.err.println("Invalid Date or Time");
-            valid = false;
-        }
-        return valid;
+        if(Integer.parseInt(dateAndTime[0]) <= 0 || Integer.parseInt(dateAndTime[0]) > 12)
+            return false;
+        else if(Integer.parseInt(dateAndTime[1]) <= 0 || Integer.parseInt(dateAndTime[1]) > 31)
+            return false;
+        else if(Integer.parseInt(dateAndTime[3]) < 0 || Integer.parseInt(dateAndTime[3]) > 12)
+            return false;
+        else if(Integer.parseInt(dateAndTime[4]) < 0 || Integer.parseInt(dateAndTime[4]) > 59)
+            return false;
 
-         */
         String formattedDateAndTime = dateAndTime[0] + "/" + dateAndTime[1] + "/" + dateAndTime[2] + " " +
-                dateAndTime[3] + ":" + dateAndTime[4] + dateAndTime[5];
+                dateAndTime[3] + ":" + dateAndTime[4] + " " + dateAndTime[5];
         System.out.println(formattedDateAndTime);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
         try {
             sdf.parse(formattedDateAndTime);
             sdf.setLenient(false);
@@ -86,9 +91,11 @@ public class Validator {
         }
     }
 
-    public String validation(String flightNumber, String src, String dest, String[] departureArray, String[] arrivalArray)
+    public String validation(String airlineNameString, String flightNumber, String src, String dest, String[] departureArray, String[] arrivalArray)
     {
-        if(!isValidFlightNumber(flightNumber))
+        if(!isValidAirlineName(airlineNameString))
+            return AIRLINE_NAME_ERROR;
+        else if(!isValidFlightNumber(flightNumber))
             return FLIGHT_NUMBER_ERROR;
         else if(!isValidSrcAndDestCode(src))
             return SRC_DEST_ERROR;

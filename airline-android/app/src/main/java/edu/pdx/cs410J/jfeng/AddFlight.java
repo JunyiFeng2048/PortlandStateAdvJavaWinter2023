@@ -1,5 +1,6 @@
 package edu.pdx.cs410J.jfeng;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.TimePicker;
 import android.os.Bundle;
@@ -8,6 +9,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class AddFlight extends AppCompatActivity {
@@ -20,6 +25,12 @@ public class AddFlight extends AppCompatActivity {
 
     public void returnToMain(View view){
         finish();
+    }
+
+    @Nullable
+    private File getFilePath(String fileName){
+        File dataDir = this.getDataDir();
+        return new File(dataDir,fileName+".txt");
     }
 
     public void addFlight(View view) {
@@ -44,15 +55,31 @@ public class AddFlight extends AppCompatActivity {
         String flightNumberString = flightNumber.getText().toString();
         String srcString = src.getText().toString();
         String destString = dest.getText().toString();
+        String departString = departureMonth.getText().toString() + "/" + departureDay.getText().toString() + "/" + departureYear.getText().toString() + " " +
+                departureHour.getText().toString() + ":" + departureMinute.getText().toString() + " " + departurePeriod.getText().toString();
+        String arrivalString = arrivalMonth.getText().toString() + "/" + arrivalDay.getText().toString() + "/" + arrivalYear.getText().toString() + " " +
+                arrivalHour.getText().toString() + ":" + arrivalMinute.getText().toString() + " " + arrivalPeriod.getText().toString();
         String[] departStringArray = {departureMonth.getText().toString(),departureDay.getText().toString(),departureYear.getText().toString(),
                 departureHour.getText().toString(),departureMinute.getText().toString(),departurePeriod.getText().toString()};
         String[] arrivalStringArray = {arrivalMonth.getText().toString(),arrivalDay.getText().toString(),arrivalYear.getText().toString(),
                 arrivalHour.getText().toString(),arrivalMinute.getText().toString(),arrivalPeriod.getText().toString()};
 
         Validator validator = new Validator();
-        String validationResult = validator.validation(flightNumberString,srcString,destString,departStringArray,arrivalStringArray);
+        String validationResult = validator.validation(airlineNameString,flightNumberString,srcString,destString,departStringArray,arrivalStringArray);
         if(!validationResult.equals("valid")){
-            Toast.makeText(this, validationResult, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, validationResult, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        File filePath = getFilePath(airlineNameString);
+
+        String airlineString = flightNumberString + " " + srcString + " "
+                + departString + " " + destString + " " + arrivalString;
+
+        try(PrintWriter printWriter = new PrintWriter(new FileWriter(filePath,true))){
+            printWriter.println(airlineString);
+        } catch (IOException e) {
+            Toast.makeText(this, "Unknown Error", Toast.LENGTH_SHORT).show();
         }
 
         /*
