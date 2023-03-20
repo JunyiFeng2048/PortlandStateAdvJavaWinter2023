@@ -18,15 +18,14 @@ public class Help extends AppCompatActivity {
         TextView README = findViewById(R.id.README);
         //Toast.makeText(this, this.getDataDir().toString(), Toast.LENGTH_SHORT).show();
 
-        String READMEString = "usage: java -jar target/airline-client.jar [options] <args>\n" +
-                "args are (in this order):\n" +
-                "airline The name of the airline\n" +
-                "flightNumber The flight number\n" +
-                "src Three-letter code of departure airport\n" +
-                "depart Departure date/time\n" +
-                "dest Three-letter code of arrival airport\n" +
-                "arrive Arrival date/time\n" +
-                "options are (options may appear in any order):\n";
+        String READMEString = "This application is able to create an airline, entering flights, pretty printing an airline and its flights, searching for flights\n" +
+                "Usage: \n" +
+                "-PRINT AIRLINE\n" +
+                "\t\tEnter an airline to print its flights\n" +
+                "-ADD FLIGHT\n" +
+                "\t\tEnter info for an airline and add it to the local storage\n" +
+                "-SEARCH\n" +
+                "\t\tEnter the airline name, src and dest and return the corresponding flight\n";
 
         README.setText(READMEString);
     }

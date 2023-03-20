@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import edu.pdx.cs410J.AirportNames;
@@ -23,7 +24,6 @@ public class Validator {
 
     public boolean isValidSrcAndDestCode(String str)
     {
-        str = str.toUpperCase();
         if(str.length() != 3)
         {
             return false;
@@ -81,7 +81,7 @@ public class Validator {
         String formattedDateAndTime = dateAndTime[0] + "/" + dateAndTime[1] + "/" + dateAndTime[2] + " " +
                 dateAndTime[3] + ":" + dateAndTime[4] + " " + dateAndTime[5];
         System.out.println(formattedDateAndTime);
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
         try {
             sdf.parse(formattedDateAndTime);
             sdf.setLenient(false);
@@ -91,7 +91,31 @@ public class Validator {
         }
     }
 
-    public String validation(String airlineNameString, String flightNumber, String src, String dest, String[] departureArray, String[] arrivalArray)
+    public boolean isValidDuration(String[] departureArray, String[] arrivalArray)
+    {
+        String departure = departureArray[0] + "/" + departureArray[1] + "/" + departureArray[2] + " " +
+                departureArray[3] + ":" + departureArray[4] + " " + departureArray[5];
+        String arrival = arrivalArray[0] + "/" + arrivalArray[1] + "/" + arrivalArray[2] + " " +
+                arrivalArray[3] + ":" + arrivalArray[4] + " " + arrivalArray[5];
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+            Date date1 = sdf.parse(departure);
+            Date date2 = sdf.parse(arrival);
+            long time_difference = date2.getTime() - date1.getTime();
+            if(time_difference < 0)
+            {
+                System.err.println("Invalid Date or Time");
+                return false;
+            }
+        }
+        catch (ParseException e) {
+            System.err.println("Invalid Date or Time");
+            return false;
+        }
+        return true;
+    }
+
+    public String validationAddFlight(String airlineNameString, String flightNumber, String src, String dest, String[] departureArray, String[] arrivalArray)
     {
         if(!isValidAirlineName(airlineNameString))
             return AIRLINE_NAME_ERROR;
@@ -105,6 +129,20 @@ public class Validator {
             return DEPARTURE_ARRIVAL_ERROR;
         else if(!isValidDateAndTime(arrivalArray))
             return DEPARTURE_ARRIVAL_ERROR;
+        else if(!isValidDuration(departureArray, arrivalArray))
+            return DEPARTURE_ARRIVAL_ERROR;
+
+        return VALID;
+    }
+
+    public String validationSearchFlight(String airlineNameString, String src, String dest)
+    {
+        if(!isValidAirlineName(airlineNameString))
+            return AIRLINE_NAME_ERROR;
+        else if(!isValidSrcAndDestCode(src))
+            return SRC_DEST_ERROR;
+        else if(!isValidSrcAndDestCode(dest))
+            return SRC_DEST_ERROR;
 
         return VALID;
     }

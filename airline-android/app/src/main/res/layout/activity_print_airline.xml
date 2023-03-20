@@ -21,11 +21,11 @@
         app:layout_constraintVertical_bias="0.929" />
 
     <Button
-        android:id="@+id/search"
+        android:id="@+id/print"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="search"
-        android:text="Search"
+        android:onClick="print"
+        android:text="Print"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,10 +34,10 @@
 
     <LinearLayout
         android:id="@+id/row_airline"
-        android:layout_width="331dp"
+        android:layout_width="320dp"
         android:layout_height="44dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/add_flight_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -45,16 +45,16 @@
 
         <TextView
             android:id="@+id/airline_name"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:text="Enter Airline Name: " />
 
         <EditText
             android:id="@+id/airline_name_input"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="text" />
 
     </LinearLayout>
 
@@ -63,12 +63,12 @@
         android:layout_width="363dp"
         android:layout_height="408dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/add_flight_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/row_airline"
-        app:layout_constraintVertical_bias="0.222"></ListView>
+        app:layout_constraintVertical_bias="0.222" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

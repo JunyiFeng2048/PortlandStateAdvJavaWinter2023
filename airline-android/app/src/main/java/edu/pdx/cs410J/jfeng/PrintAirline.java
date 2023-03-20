@@ -28,15 +28,15 @@ public class PrintAirline extends AppCompatActivity {
         setContentView(R.layout.activity_print_airline);
     }
 
-    public void search(View view){
+    public void print(View view){
         ListView listOfFlights = findViewById(R.id.flights);
         EditText airlineName = findViewById(R.id.airline_name_input);
         String airlineNameString = airlineName.getText().toString();
         Airline airline = new Airline(airlineNameString);
         readAirlineFile(airline);
+        airline.sort();
         flights = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,(List)airline.getFlights());
         listOfFlights.setAdapter(flights);
-
     }
 
     @Nullable
@@ -50,11 +50,6 @@ public class PrintAirline extends AppCompatActivity {
             for(String line = bufferedReader.readLine(); line!=null; line=bufferedReader.readLine()){
                 Flight flight = new Flight();
                 String[] flightDetail = line.split(" ");
-/*
-                for (int i = 0; i < flightDetail.length; i++) {
-                    System.out.println(flightDetail[i]);
-                }
-*/
                 flight.setFlightNumber(Integer.parseInt(flightDetail[0]));
                 flight.setSourceCode(flightDetail[1]);
                 flight.setDepartDate(flightDetail[2]);
@@ -65,10 +60,6 @@ public class PrintAirline extends AppCompatActivity {
                 flight.setArrivalTime(flightDetail[7]);
                 flight.setArrivalPeriod(flightDetail[8]);
                 airline.addFlight(flight);
-
-                for (int i = 0; i < airline.getFlights().size(); i++) {
-                    System.out.println(airline.getFlights().toString());
-                }
             }
         } catch (IOException e) {
             //throw new RuntimeException(e);

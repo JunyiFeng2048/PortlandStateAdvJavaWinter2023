@@ -53,8 +53,8 @@ public class AddFlight extends AppCompatActivity {
 
         String airlineNameString = airlineName.getText().toString();
         String flightNumberString = flightNumber.getText().toString();
-        String srcString = src.getText().toString();
-        String destString = dest.getText().toString();
+        String srcString = src.getText().toString().toUpperCase();
+        String destString = dest.getText().toString().toUpperCase();
         String departString = departureMonth.getText().toString() + "/" + departureDay.getText().toString() + "/" + departureYear.getText().toString() + " " +
                 departureHour.getText().toString() + ":" + departureMinute.getText().toString() + " " + departurePeriod.getText().toString();
         String arrivalString = arrivalMonth.getText().toString() + "/" + arrivalDay.getText().toString() + "/" + arrivalYear.getText().toString() + " " +
@@ -65,7 +65,7 @@ public class AddFlight extends AppCompatActivity {
                 arrivalHour.getText().toString(),arrivalMinute.getText().toString(),arrivalPeriod.getText().toString()};
 
         Validator validator = new Validator();
-        String validationResult = validator.validation(airlineNameString,flightNumberString,srcString,destString,departStringArray,arrivalStringArray);
+        String validationResult = validator.validationAddFlight(airlineNameString,flightNumberString,srcString,destString,departStringArray,arrivalStringArray);
         if(!validationResult.equals("valid")){
             Toast.makeText(this, validationResult, Toast.LENGTH_SHORT).show();
             return;
@@ -79,35 +79,9 @@ public class AddFlight extends AppCompatActivity {
         try(PrintWriter printWriter = new PrintWriter(new FileWriter(filePath,true))){
             printWriter.println(airlineString);
             finish();
-            //Toast.makeText(this, filePath.toString(), Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             Toast.makeText(this, "Unknown Error", Toast.LENGTH_SHORT).show();
         }
 
-        /*
-        int leftOperand;
-        try {
-            leftOperand = Integer.parseInt(leftOperandString);
-
-        } catch (NumberFormatException ex) {
-            Toast.makeText(this, "Invalid number: " + leftOperandString, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        int rightOperand;
-        try {
-            rightOperand = Integer.parseInt(rightOperandString);
-
-        } catch (NumberFormatException ex) {
-            Toast.makeText(this, "Invalid number: " + rightOperandString, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        sum = leftOperand + rightOperand;
-
-        TextView sumEditText = findViewById(R.id.sum);
-        sumEditText.setText(String.valueOf(sum));
-
-         */
     }
 }
