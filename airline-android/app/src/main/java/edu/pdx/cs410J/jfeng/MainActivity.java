@@ -134,10 +134,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         int sum = leftOperand + rightOperand;
-
         TextView sumEditText = findViewById(R.id.sum);
         sumEditText.setText(String.valueOf(sum));
-
     }
 */
 
@@ -147,6 +145,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchAddFlight(View view) {
         startActivity(new Intent(this, AddFlight.class));
+    }
+
+    public void launchPrintAirline(View view){
+        startActivity(new Intent(this, PrintAirline.class));
     }
 
 }

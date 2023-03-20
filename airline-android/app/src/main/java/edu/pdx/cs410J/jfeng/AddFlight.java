@@ -78,6 +78,8 @@ public class AddFlight extends AppCompatActivity {
 
         try(PrintWriter printWriter = new PrintWriter(new FileWriter(filePath,true))){
             printWriter.println(airlineString);
+            finish();
+            //Toast.makeText(this, filePath.toString(), Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             Toast.makeText(this, "Unknown Error", Toast.LENGTH_SHORT).show();
         }

@@ -16,6 +16,7 @@ public class Help extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
         TextView README = findViewById(R.id.README);
+        //Toast.makeText(this, this.getDataDir().toString(), Toast.LENGTH_SHORT).show();
 
         String READMEString = "usage: java -jar target/airline-client.jar [options] <args>\n" +
                 "args are (in this order):\n" +
