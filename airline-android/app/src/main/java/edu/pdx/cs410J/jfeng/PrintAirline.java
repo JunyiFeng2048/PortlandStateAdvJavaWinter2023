@@ -9,14 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import org.checkerframework.checker.units.qual.A;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PrintAirline extends AppCompatActivity {

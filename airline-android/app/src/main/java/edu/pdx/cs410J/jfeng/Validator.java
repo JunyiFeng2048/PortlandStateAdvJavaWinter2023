@@ -1,13 +1,9 @@
 package edu.pdx.cs410J.jfeng;
 
-import android.annotation.SuppressLint;
-import android.widget.Toast;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-
 import edu.pdx.cs410J.AirportNames;
 
 public class Validator {
